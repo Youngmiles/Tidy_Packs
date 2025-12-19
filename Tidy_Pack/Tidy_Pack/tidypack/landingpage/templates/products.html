@@ -1,0 +1,755 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Browse CycleWorks’ sustainable clothing collections. Shop recycled and upcycled apparel or swap pre-loved items.">
+<meta name="keywords" content="CycleWorks clothing, circular fashion Kenya, sustainable apparel, recycled fashion">
+<title>Collections - CycleWorks</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="shortcut icon" href="{% static 'icons/sew.png' %}" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Poppins', sans-serif;
+}
+body {
+background: #f9fafb;
+overflow-x: hidden;
+line-height: 1.6;
+}
+nav {
+background: linear-gradient(90deg, #805b15, #c58c22);
+color: white;
+padding: 1.5rem;
+position: fixed;
+width: 100%;
+z-index: 1000;
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+.nav-container {
+max-width: 1280px;
+margin: 0 auto;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.nav-logo {
+display: flex;
+align-items: center;
+gap: 0.75rem;
+}
+.nav-logo img {
+height: 2.8rem;
+width: auto;
+filter: brightness(0) invert(1);
+transition: transform 0.4s ease;
+}
+.nav-logo img:hover {
+transform: scale(1.15) rotate(5deg);
+}
+.nav-logo span {
+font-size: 1.7rem;
+font-weight: 700;
+color: #86efac;
+letter-spacing: 0.05rem;
+text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.nav-links {
+display: flex;
+gap: 2.5rem;
+}
+.nav-links a {
+color: white;
+text-decoration: none;
+font-size: 1.05rem;
+font-weight: 500;
+position: relative;
+transition: color 0.3s ease;
+}
+.nav-links a::after {
+content: '';
+position: absolute;
+width: 0;
+height: 2px;
+bottom: -4px;
+left: 0;
+background: #86efac;
+transition: width 0.3s ease;
+}
+.nav-links a:hover::after {
+width: 100%;
+}
+.nav-links a:hover {
+color: #86efac;
+}
+.nav-buttons {
+display: flex;
+gap: 1rem;
+}
+.nav-buttons button {
+background: linear-gradient(135deg, #c55022, #805e15);
+color: white;
+border: none;
+padding: 0.8rem 2rem;
+border-radius: 999px;
+font-weight: 600;
+font-size: 1rem;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+.nav-buttons button:hover {
+background: linear-gradient(135deg, #15803d, #14532d);
+transform: translateY(-3px);
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+.nav-buttons .join-community {
+background: linear-gradient(135deg, #10b981, #059669);
+}
+.nav-buttons .join-community:hover {
+background: linear-gradient(135deg, #059669, #047857);
+}
+.mobile-menu-btn {
+display: none;
+background: none;
+border: none;
+color: white;
+font-size: 2.2rem;
+cursor: pointer;
+transition: transform 0.3s ease;
+}
+.mobile-menu-btn:hover {
+transform: rotate(90deg);
+}
+.mobile-menu {
+display: none;
+flex-direction: column;
+gap: 1.5rem;
+position: absolute;
+top: 100%;
+left: 0;
+right: 0;
+background: linear-gradient(90deg, #15803d, #22c55e);
+padding: 2.5rem;
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+.mobile-menu a, .mobile-menu button {
+color: white;
+text-decoration: none;
+font-size: 1.2rem;
+font-weight: 500;
+padding: 0.8rem 1.2rem;
+border-radius: 0.5rem;
+transition: all 0.3s ease;
+}
+.mobile-menu a:hover, .mobile-menu button:hover {
+background: rgba(255, 255, 255, 0.15);
+transform: translateX(8px);
+}
+.mobile-menu button {
+width: 100%;
+text-align: center;
+background: linear-gradient(135deg, #22c55e, #15803d);
+border: none;
+padding: 0.8rem;
+border-radius: 999px;
+font-weight: 600;
+cursor: pointer;
+box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+.mobile-menu button:hover {
+background: linear-gradient(135deg, #15803d, #14532d);
+transform: translateY(-3px);
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+.mobile-menu .join-community {
+background: linear-gradient(135deg, #10b981, #059669);
+}
+.mobile-menu .join-community:hover {
+background: linear-gradient(135deg, #059669, #047857);
+}
+.products {
+padding: 9rem 2rem 6rem;
+background: linear-gradient(180deg, #f9fafb, #e5e7eb);
+text-align: center;
+position: relative;
+overflow: hidden;
+}
+.products::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+opacity: 0.1;
+z-index: 0;
+}
+.products h1 {
+font-size: 2.8rem;
+font-weight: 700;
+color: #15803d;
+margin-bottom: 1.8rem;
+text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+position: relative;
+z-index: 1;
+}
+.products p {
+font-size: 1.15rem;
+color: #374151;
+max-width: 720px;
+margin: 0 auto 3rem;
+font-weight: 400;
+position: relative;
+z-index: 1;
+}
+.product-list {
+max-width: 1280px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 2.5rem;
+position: relative;
+z-index: 1;
+}
+.product-item {
+background: #ffffff;
+padding: 2rem;
+border-radius: 1.2rem;
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+transition: all 0.4s ease;
+text-align: left;
+animation: fadeInUp 0.6s ease-out forwards;
+}
+.product-item:hover {
+transform: translateY(-12px);
+box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+.product-item img {
+width: 100%;
+height: 220px;
+object-fit: cover;
+border-radius: 1rem;
+margin-bottom: 1.2rem;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.product-item h3 {
+font-size: 1.5rem;
+color: #15803d;
+margin-bottom: 0.8rem;
+font-weight: 600;
+}
+.product-item p {
+font-size: 1.05rem;
+color: #374151;
+margin-bottom: 1.8rem;
+font-weight: 400;
+}
+.product-item .customize-options {
+margin-bottom: 1.8rem;
+display: flex;
+align-items: center;
+gap: 0.75rem;
+}
+.product-item .customize-options label {
+font-size: 0.95rem;
+color: #374151;
+font-weight: 500;
+display: flex;
+align-items: center;
+gap: 0.5rem;
+}
+.product-item .customize-options label img {
+width: 20px;
+height: 20px;
+}
+.product-item .customize-options select {
+flex: 1;
+padding: 0.6rem;
+border: 1px solid #d1d5db;
+border-radius: 0.5rem;
+font-size: 0.95rem;
+outline: none;
+background: #f9fafb;
+transition: all 0.3s ease;
+}
+.product-item .customize-options select:focus {
+border-color: #22c55e;
+box-shadow: 0 0 8px rgba(34, 197, 94, 0.2);
+}
+.product-item .buttons {
+display: flex;
+gap: 1.2rem;
+}
+.product-item button {
+background: linear-gradient(135deg, #22c55e, #15803d);
+color: white;
+border: none;
+padding: 0.8rem 1.8rem;
+border-radius: 999px;
+font-weight: 600;
+font-size: 1rem;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+width: 100%;
+}
+.product-item button:hover {
+background: linear-gradient(135deg, #15803d, #14532d);
+transform: translateY(-3px);
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+.product-item .swap-btn {
+background: linear-gradient(135deg, #10b981, #059669);
+}
+.product-item .swap-btn:hover {
+background: linear-gradient(135deg, #059669, #047857);
+}
+.chatbot-button {
+position: fixed;
+bottom: 40px;
+right: 40px;
+background: linear-gradient(135deg, #22c55e, #15803d);
+color: white;
+border: none;
+width: 80px;
+height: 80px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+z-index: 1000;
+transition: all 0.3s ease;
+}
+.chatbot-button:hover {
+background: linear-gradient(135deg, #15803d, #14532d);
+transform: scale(1.15);
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+.chatbot-button img {
+width: 32px;
+height: 32px;
+}
+.chatbot-container {
+position: fixed;
+bottom: 140px;
+right: 40px;
+width: 340px;
+max-height: 480px;
+background: #ffffff;
+border-radius: 1.2rem;
+box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+display: none;
+flex-direction: column;
+z-index: 1000;
+overflow: hidden;
+animation: slideInUp 0.4s ease-out;
+}
+.chatbot-container.active {
+display: flex;
+}
+.chatbot-header {
+background: linear-gradient(90deg, #15803d, #22c55e);
+color: white;
+padding: 1.2rem;
+font-size: 1.15rem;
+font-weight: 600;
+display: flex;
+justify-content: space-between;
+align-items: center;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.chatbot-header button {
+background: none;
+border: none;
+color: white;
+font-size: 1.5rem;
+cursor: pointer;
+transition: color 0.3s ease, transform 0.3s ease;
+}
+.chatbot-header button:hover {
+color: #86efac;
+transform: scale(1.2);
+}
+.chatbot-messages {
+flex: 1;
+padding: 1.8rem;
+overflow-y: auto;
+background: #f9fafb;
+}
+.chatbot-message {
+margin-bottom: 1.5rem;
+font-size: 0.95rem;
+line-height: 1.5;
+}
+.chatbot-message.bot {
+color: #15803d;
+background: #e5e7eb;
+padding: 0.8rem 1.2rem;
+border-radius: 1rem 1rem 1rem 0;
+max-width: 85%;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+.chatbot-message.user {
+color: #ffffff;
+background: linear-gradient(135deg, #22c55e, #15803d);
+text-align: right;
+padding: 0.8rem 1.2rem;
+border-radius: 1rem 1rem 0 1rem;
+max-width: 85%;
+margin-left: auto;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+.chatbot-input {
+display: flex;
+border-top: 1px solid #e5e7eb;
+padding: 1rem;
+background: #ffffff;
+}
+.chatbot-input input {
+flex: 1;
+border: 1px solid #d1d5db;
+border-radius: 0.5rem;
+padding: 0.8rem;
+width: 70%;
+font-size: 0.95rem;
+outline: none;
+transition: all 0.3s ease;
+}
+.chatbot-input input:focus {
+border-color: #22c55e;
+box-shadow: 0 0 8px rgba(34, 197, 94, 0.2);
+}
+.chatbot-input button {
+background: linear-gradient(135deg, #22c55e, #15803d);
+color: white;
+border: none;
+padding: 0.8rem 1.8rem;
+border-radius: 0.5rem;
+margin-left: 1rem;
+cursor: pointer;
+font-weight: 600;
+transition: all 0.3s ease;
+box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+.chatbot-input button:hover {
+background: linear-gradient(135deg, #15803d, #14532d);
+transform: translateY(-2px);
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+footer {
+background: linear-gradient(90deg, #15803d, #22c55e);
+color: #f3f4f6;
+padding: 4rem 2rem;
+position: relative;
+}
+.footer-container {
+max-width: 1280px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+gap: 2.5rem;
+}
+.footer-section {
+flex: 1;
+min-width: 220px;
+}
+.footer-section h3 {
+font-size: 1.3rem;
+font-weight: 600;
+margin-bottom: 1.8rem;
+color: #ffffff;
+text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.footer-section a,
+.footer-section p {
+font-size: 1rem;
+color: #d1d5db;
+text-decoration: none;
+display: block;
+margin-bottom: 0.8rem;
+transition: all 0.3s ease;
+}
+.footer-section a:hover {
+color: #86efac;
+transform: translateX(5px);
+}
+.footer-bottom {
+text-align: center;
+padding-top: 2.5rem;
+border-top: 1px solid #22c55e;
+margin-top: 2.5rem;
+font-size: 0.9rem;
+color: #d1d5db;
+}
+.footer-bottom a {
+color: #d1d5db;
+margin: 0 1rem;
+text-decoration: none;
+transition: all 0.3s ease;
+}
+.footer-bottom a:hover {
+color: #86efac;
+}
+@keyframes fadeInLeft {
+from { opacity: 0; transform: translateX(-60px); }
+to { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight {
+from { opacity: 0; transform: translateX(60px); }
+to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInUp {
+from { opacity: 0; transform: translateY(60px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+from { opacity: 0; transform: translateY(30px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 1024px) {
+.nav-links, .nav-buttons {
+display: none;
+}
+.mobile-menu-btn {
+display: block;
+}
+.mobile-menu.active {
+display: flex;
+}
+.product-list {
+grid-template-columns: 1fr;
+}
+.chatbot-container {
+width: 90%;
+right: 5%;
+bottom: 100px;
+}
+}
+@media (max-width: 480px) {
+.products h1 {
+font-size: 2.2rem;
+}
+.products p {
+font-size: 1rem;
+}
+.product-item img {
+height: 180px;
+}
+.product-item h3 {
+font-size: 1.3rem;
+}
+.product-item button {
+padding: 0.7rem 1.5rem;
+font-size: 0.95rem;
+}
+.chatbot-button {
+width: 70px;
+height: 70px;
+bottom: 30px;
+right: 30px;
+}
+.chatbot-button img {
+width: 28px;
+height: 28px;
+}
+}
+</style>
+</head>
+<body>
+<nav>
+<div class="nav-container">
+<div class="nav-logo">
+<img src="{% static 'icons/sew.png' %}" alt="CycleWorks Logo" />
+<span>CycleWorks</span>
+</div>
+<div class="nav-links">
+<a href="{% url 'home' %}">Home</a>
+<a href="{% url 'home' %}#about">About Circular Fashion</a>
+<a href="{% url 'product_landing' %}">Collections</a>
+<a href="{% url 'contact' %}">Contact Us</a>
+</div>
+<div class="nav-buttons">
+<a href="{% url 'register' %}"><button class="join-community">Join Community</button></a>
+<a href="{% url 'login' %}"><button class="join-community">Login</button></a>
+</div>
+<button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+</div>
+<div class="mobile-menu" id="mobileMenu">
+<a href="{% url 'home' %}">Home</a>
+<a href="{% url 'home' %}#about">About Circular Fashion</a>
+<a href="{% url 'product_landing' %}">Collections</a>
+<a href="{% url 'contact' %}">Contact Us</a>
+<a href="{% url 'register' %}"><button class="join-community">Join Community</button></a>
+<a href="{% url 'login' %}"><button class="join-community">Login</button></a>
+</div>
+</nav>
+<div class="products">
+<h1>Our Sustainable Collections</h1>
+<p>Discover our range of recycled and upcycled clothing, designed for style and sustainability. Shop or swap to join the circular fashion movement.</p>
+<div class="product-list">
+<div class="product-item">
+<img src="{% static 'images/denim.jpg' %}" alt="Upcycled Denim Jacket" />
+<h3>Upcycled Denim Jacket</h3>
+<p>Crafted from repurposed denim, offering unique style and sustainability.</p>
+<div class="customize-options">
+<label for="jacket-size"><i class="fas fa-ruler"></i>Size:</label>
+<select id="jacket-size">
+<option value="small">Small</option>
+<option value="medium">Medium</option>
+<option value="large">Large</option>
+</select>
+</div>
+<div class="buttons">
+<a href="{% url 'login' %}"><button>Shop Now</button></a>
+<a href="{% url 'login' %}"><button class="swap-btn">Swap Item</button></a>
+</div>
+</div>
+<div class="product-item">
+<img src="{% static 'images/cotton_tee.png' %}" alt="Recycled Cotton Tee" />
+<h3>Recycled Cotton Tee</h3>
+<p>Made from 100% recycled cotton, soft and eco-friendly for everyday wear.</p>
+<div class="customize-options">
+<label for="tee-size"><i class="fas fa-ruler"></i>Size:</label>
+<select id="tee-size">
+<option value="small">Small</option>
+<option value="medium">Medium</option>
+<option value="large">Large</option>
+</select>
+</div>
+<div class="buttons">
+<a href="{% url 'login' %}"><button>Shop Now</button></a>
+<a href="{% url 'login' %}"><button class="swap-btn">Swap Item</button></a>
+</div>
+</div>
+<div class="product-item">
+<img src="{% static 'images/dress.jpg' %}" alt="Upcycled Patchwork Dress" />
+<h3>Upcycled Patchwork Dress</h3>
+<p>Unique dress made from fabric scraps, blending style with zero-waste design.</p>
+<div class="customize-options">
+<label for="dress-color"><i class="fas fa-palette"></i>Color:</label>
+<select id="dress-color">
+<option value="multicolor">Multicolor</option>
+<option value="neutral">Neutral</option>
+<option value="vibrant">Vibrant</option>
+</select>
+</div>
+<div class="buttons">
+<a href="{% url 'login' %}"><button>Shop Now</button></a>
+<a href="{% url 'login' %}"><button class="swap-btn">Swap Item</button></a>
+</div>
+</div>
+<div class="product-item">
+<img src="{% static 'images/trouser.jpg' %}" alt="Recycled Trousers" />
+<h3>Recycled Trousers</h3>
+<p>Comfortable trousers crafted from recycled polyester, perfect for any occasion.</p>
+<div class="customize-options">
+<label for="trouser-size"><i class="fas fa-ruler"></i>Size:</label>
+<select id="trouser-size">
+<option value="small">Small</option>
+<option value="medium">Medium</option>
+<option value="large">Large</option>
+</select>
+</div>
+<div class="buttons">
+<a href="{% url 'login' %}"><button>Shop Now</button></a>
+<a href="{% url 'login' %}"><button class="swap-btn">Swap Item</button></a>
+</div>
+</div>
+</div>
+</div>
+<button class="chatbot-button" onclick="toggleChatbot()">
+<img src="{% static 'icons/support.png' %}" alt="Chat Icon" />
+</button>
+<div class="chatbot-container" id="chatbotContainer">
+<div class="chatbot-header">
+<span>CycleWorks Assistant</span>
+<button onclick="toggleChatbot()">×</button>
+</div>
+<div class="chatbot-messages" id="chatbotMessages">
+<div class="chatbot-message bot">Hello! How can I assist you with circular fashion today? Ask about our collections, swapping, or sustainability!</div>
+</div>
+<div class="chatbot-input">
+<input type="text" id="chatbotInput" placeholder="Type your question..." />
+<button onclick="sendMessage()">Send</button>
+</div>
+</div>
+<footer>
+<div class="footer-container">
+<div class="footer-section">
+<h3>CycleWorks</h3>
+
+</div>
+<div class="footer-section">
+<h3>Quick Links</h3>
+<a href="{% url 'home' %}">Home</a>
+<a href="{% url 'home' %}#about">About Circular Fashion</a>
+<a href="{% url 'product_landing' %}">Collections</a>
+<a href="{% url 'contact' %}">Contact Us</a>
+</div>
+<div class="footer-section">
+<h3>Contact</h3>
+<p>Email: support@cycleworks.ke</p>
+<p>Phone: +(254) 123 456 789</p>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 CycleWorks. All rights reserved.</p>
+<a href="#">Privacy Policy</a>
+<a href="#">Terms of Service</a>
+</div>
+</footer>
+<script>
+function toggleMobileMenu() {
+const mobileMenu = document.getElementById('mobileMenu');
+mobileMenu.classList.toggle('active');
+}
+function toggleChatbot() {
+const chatbotContainer = document.getElementById('chatbotContainer');
+chatbotContainer.classList.toggle('active');
+}
+function sendMessage() {
+const input = document.getElementById('chatbotInput');
+const messages = document.getElementById('chatbotMessages');
+const userMessage = input.value.trim().toLowerCase();
+if (userMessage) {
+const userDiv = document.createElement('div');
+userDiv.className = 'chatbot-message user';
+userDiv.textContent = userMessage;
+messages.appendChild(userDiv);
+let botResponse = "Sorry, I didn't understand that. Try asking about collections, swapping, or sustainability!";
+if (userMessage.includes('collection') || userMessage.includes('clothing') || userMessage.includes('fashion')) {
+botResponse = "Explore our recycled and upcycled clothing in the Collections section. Find sustainable styles!";
+} else if (userMessage.includes('swap') || userMessage.includes('exchange')) {
+botResponse = "Join our community to swap pre-loved clothes and contribute to a circular economy!";
+} else if (userMessage.includes('sustainability') || userMessage.includes('eco-friendly')) {
+botResponse = "Our clothing is made from recycled materials and upcycled designs to reduce waste!";
+} else if (userMessage.includes('contact') || userMessage.includes('support')) {
+botResponse = "Reach us at support@cycleworks.ke or call +(254) 123 456 789. Use our contact form for more options!";
+} else if (userMessage.includes('shop') || userMessage.includes('buy')) {
+botResponse = "Browse our Collections section to shop sustainable clothing. Log in to place an order!";
+}
+const botDiv = document.createElement('div');
+botDiv.className = 'chatbot-message bot';
+botDiv.textContent = botResponse;
+messages.appendChild(botDiv);
+input.value = '';
+messages.scrollTop = messages.scrollHeight;
+}
+}
+document.getElementById('chatbotInput').addEventListener('keypress', function(e) {
+if (e.key === 'Enter') {
+sendMessage();
+}
+});
+</script>
+</body>
+</html>

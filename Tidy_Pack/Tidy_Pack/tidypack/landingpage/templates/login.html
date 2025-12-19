@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Log in to your Tidy Pack account to access sustainable packaging solutions and manage your orders.">
+  <meta name="keywords" content="Tidy Pack login, eco-friendly packaging, sustainable packaging Kenya">
+  <title>Login - Tidy Pack</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  {% load static %}
+  <link rel="shortcut icon" href="{% static 'icons/packaging.png' %}" type="image/x-icon">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #f9fafb;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    nav {
+      background: linear-gradient(90deg, #c57922, #22c55e);
+      color: white;
+      padding: 1.5rem;
+      position: fixed;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-logo img {
+      height: 2.8rem;
+      width: auto;
+      filter: brightness(0) invert(1);
+      transition: transform 0.4s ease;
+    }
+
+    .nav-logo img:hover {
+      transform: scale(1.15) rotate(5deg);
+    }
+
+    .nav-logo span {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #86efac;
+      letter-spacing: 0.05rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background: #86efac;
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a:hover {
+      color: #86efac;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .nav-buttons button {
+      background: linear-gradient(135deg, #22c55e, #c57922);
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .nav-buttons button:hover {
+      background: linear-gradient(135deg, #c57922, #14532d);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 2.2rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .mobile-menu-btn:hover {
+      transform: rotate(90deg);
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: linear-gradient(90deg, #c57922, #22c55e);
+      padding: 2.5rem;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .mobile-menu.active {
+      display: flex;
+    }
+
+    .mobile-menu a, .mobile-menu button {
+      color: white;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 500;
+      padding: 0.8rem 1.2rem;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu a:hover, .mobile-menu button:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateX(8px);
+    }
+
+    .mobile-menu button {
+      width: 100%;
+      text-align: center;
+      background: linear-gradient(135deg, #22c55e, #c57922);
+      border: none;
+      padding: 0.8rem;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .mobile-menu button:hover {
+      background: linear-gradient(135deg, #c57922, #14532d);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Login Section */
+    .login {
+      padding: 9rem 2rem 6rem;
+      background: linear-gradient(180deg, #f9fafb, #e5e7eb);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+      opacity: 0.1;
+      z-index: 0;
+    }
+
+    .login-container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 2.5rem;
+      border-radius: 1.2rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      text-align: left;
+      position: relative;
+      z-index: 1;
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .login-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #22c55e, #c57922);
+    }
+
+    .login-container h1 {
+      font-size: 2rem;
+      color: #c57922;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .login-container .form-group {
+      position: relative;
+      margin-bottom: 1.8rem;
+    }
+
+    .login-container label {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      font-size: 0.95rem;
+      color: #6b7280;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 1rem 0.75rem 0.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      outline: none;
+      background: #f9fafb;
+      transition: all 0.3s ease;
+    }
+
+    .login-container input:focus {
+      border-color: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.2);
+    }
+
+    .login-container input:focus + label,
+    .login-container input:not(:placeholder-shown) + label {
+      top: -0.5rem;
+      left: 0.5rem;
+      font-size: 0.8rem;
+      color: #22c55e;
+      background: #ffffff;
+      padding: 0 0.25rem;
+    }
+
+    .login-container .forgot-password {
+      text-align: right;
+      margin-bottom: 1.5rem;
+    }
+
+    .login-container .forgot-password a {
+      font-size: 0.9rem;
+      color: #22c55e;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .login-container .forgot-password a:hover {
+      color: #c57922;
+    }
+
+    .login-container button {
+      background: linear-gradient(135deg, #22c55e, #c57922);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      display: block;
+    }
+
+    .login-container button:hover {
+      background: linear-gradient(135deg, #c57922, #14532d);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .login-container .register-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      color: #374151;
+    }
+
+    .login-container .register-link a {
+      color: #22c55e;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .login-container .register-link a:hover {
+      color: #c57922;
+    }
+
+    .login-container .errorlist {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      list-style: none;
+      padding: 0;
+    }
+
+    .login-container .messages .error {
+      color: #ef4444;
+      background: #fee2e2;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .login-container .messages .success {
+      color: #22c55e;
+      background: #dcfce7;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    /* Chatbot Button */
+    .chatbot-button {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      background: linear-gradient(135deg, #22c55e, #c57922);
+      color: white;
+      border: none;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .chatbot-button:hover {
+      background: linear-gradient(135deg, #c57922, #14532d);
+      transform: scale(1.15);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .chatbot-button img {
+      width: 32px;
+      height: 32px;
+    }
+
+    /* Chatbot Container */
+    .chatbot-container {
+      position: fixed;
+      bottom: 140px;
+      right: 40px;
+      width: 340px;
+      max-height: 480px;
+      background: #ffffff;
+      border-radius: 1.2rem;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+      display: none;
+      flex-direction: column;
+      z-index: 1000;
+      overflow: hidden;
+      animation: slideInUp 0.4s ease-out;
+    }
+
+    .chatbot-container.active {
+      display: flex;
+    }
+
+    .chatbot-header {
+      background: linear-gradient(90deg, #c57922, #22c55e);
+      color: white;
+      padding: 1.2rem;
+      font-size: 1.15rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .chatbot-header button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .chatbot-header button:hover {
+      color: #86efac;
+      transform: scale(1.2);
+    }
+
+    .chatbot-messages {
+      flex: 1;
+      padding: 1.8rem;
+      overflow-y: auto;
+      background: #f9fafb;
+    }
+
+    .chatbot-message {
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .chatbot-message.bot {
+      color: #c57922;
+      background: #e5e7eb;
+      padding: 0.8rem 1.2rem;
+      border-radius: 1rem 1rem 1rem 0;
+      max-width: 85%;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .chatbot-message.user {
+      color: #ffffff;
+      background: linear-gradient(135deg, #22c55e, #c57922);
+      text-align: right;
+      padding: 0.8rem 1.2rem;
+      border-radius: 1rem 1rem 0 1rem;
+      max-width: 85%;
+      margin-left: auto;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .chatbot-input {
+      display: flex;
+      border-top: 1px solid #e5e7eb;
+      padding: 1rem;
+      background: #ffffff;
+    }
+
+    .chatbot-input input {
+      flex: 1;
+      width: 70%;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      padding: 0.8rem;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .chatbot-input input:focus {
+      border-color: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.2);
+    }
+
+    .chatbot-input button {
+      background: linear-gradient(135deg, #22c55e, #c57922);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.8rem;
+      border-radius: 0.5rem;
+      margin-left: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .chatbot-input button:hover {
+      background: linear-gradient(135deg, #c57922, #14532d);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(90deg, #c57922, #22c55e);
+      color: #f3f4f6;
+      padding: 4rem 2rem;
+      position: relative;
+    }
+
+    .footer-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .footer-section {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .footer-section h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1.8rem;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer-section a,
+    .footer-section p {
+      font-size: 1rem;
+      color: #d1d5db;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.8rem;
+      transition: all 0.3s ease;
+    }
+
+    .footer-section a:hover {
+      color: #86efac;
+      transform: translateX(5px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2.5rem;
+      border-top: 1px solid #22c55e;
+      margin-top: 2.5rem;
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+
+    .footer-bottom a {
+      color: #d1d5db;
+      margin: 0 1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .footer-bottom a:hover {
+      color: #86efac;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(60px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .nav-links, .nav-buttons {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .mobile-menu.active {
+        display: flex;
+      }
+
+      .login-container {
+        max-width: 90%;
+      }
+
+      .chatbot-container {
+        width: 90%;
+        right: 5%;
+        bottom: 100px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-container h1 {
+        font-size: 1.8rem;
+      }
+
+      .login-container button {
+        padding: 0.9rem;
+        font-size: 1rem;
+      }
+
+      .chatbot-button {
+        width: 70px;
+        height: 70px;
+        bottom: 30px;
+        right: 30px;
+      }
+
+      .chatbot-button img {
+        width: 28px;
+        height: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Log in to your CycleWorks account to access our sustainable fashion community, shop recycled apparel, and manage your preferences.">
+<meta name="keywords" content="CycleWorks login, circular fashion Kenya, sustainable clothing, recycled apparel">
+<title>Login - CycleWorks</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="shortcut icon" href="{% static 'icons/recycle.png' %}" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Poppins', sans-serif;
+}
+body {
+background: #f9fafb;
+overflow-x: hidden;
+line-height: 1.6;
+}
+nav {
+background: linear-gradient(90deg, #c57922, #22c55e);
+color: white;
+padding: 1.5rem;
+position: fixed;
+width: 100%;
+z-index: 1000;
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+.nav-container {
+max-width: 1280px;
+margin: 0 auto;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.nav-logo {
+display: flex;
+align-items: center;
+gap: 0.75rem;
+}
+.nav-logo img {
+height: 2.8rem;
+width: auto;
+filter: brightness(0) invert(1);
+transition: transform 0.4s ease;
+}
+.nav-logo img:hover {
+transform: scale(1.15) rotate(5deg);
+}
+.nav-logo span {
+font-size: 1.7rem;
+font-weight: 700;
+color: #86efac;
+letter-spacing: 0.05rem;
+text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.nav-links {
+display: flex;
+gap: 2.5rem;
+}
+.nav-links a {
+color: white;
+text-decoration: none;
+font-size: 1.05rem;
+font-weight: 500;
+position: relative;
+transition: color 0.3s ease;
+}
+.nav-links a::after {
+content: '';
+position: absolute;
+width: 0;
+height: 2px;
+bottom: -4px;
+left: 0;
+background: #86efac;
+transition: width 0.3s ease;
+}
+.nav-links a:hover::after {
+width: 100%;
+}
+.nav-links a:hover {
+color: #86efac;
+}
+.nav-buttons {
+display: flex;
+gap: 1rem;
+}
+.nav-buttons button {
+background: linear-gradient(135deg, #22c55e, #c57922);
+color: white;
+border: none;
+padding: 0.8rem 2rem;
+border-radius: 999px;
+font-weight: 600;
+font-size: 1rem;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+.nav-buttons button:hover {
+background: linear-gradient(135deg, #c57922, #14532d);
+transform: translateY(-3px);
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+.nav-buttons .join-community {
+background: linear-gradient(135deg, #10b981, #059669);
+}
+.nav-buttons .join-community:hover {
+background: linear-gradient(135deg, #059669, #047857);
+}
+.mobile-menu-btn {
+display: none;
+background: none;
+border: none;
+color: white;
+font-size: 2.2rem;
+cursor: pointer;
+transition: transform 0.3s ease;
+}
+.mobile-menu-btn:hover {
+transform: rotate(90deg);
+}
+.mobile-menu {
+display: none;
+flex-direction: column;
+gap: 1.5rem;
+position: absolute;
+top: 100%;
+left: 0;
+right: 0;
+background: linear-gradient(90deg, #c57922, #22c55e);
+padding: 2.5rem;
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+.mobile-menu.active {
+display: flex;
+}
+.mobile-menu a, .mobile-menu button {
+color: white;
+text-decoration: none;
+font-size: 1.2rem;
+font-weight: 500;
+padding: 0.8rem 1.2rem;
+border-radius: 0.5rem;
+transition: all 0.3s ease;
+}
+.mobile-menu a:hover, .mobile-menu button:hover {
+background: rgba(255, 255, 255, 0.15);
+transform: translateX(8px);
+}
+.mobile-menu button {
+width: 100%;
+text-align: center;
+background: linear-gradient(135deg, #22c55e, #c57922);
+border: none;
+padding: 0.8rem;
+border-radius: 999px;
+font-weight: 600;
+cursor: pointer;
+box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+.mobile-menu button:hover {
+background: linear-gradient(135deg, #c57922, #14532d);
+transform: translateY(-3px);
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+.mobile-menu .join-community {
+background: linear-gradient(135deg, #10b981, #059669);
+}
+.mobile-menu .join-community:hover {
+background: linear-gradient(135deg, #059669, #047857);
+}
+.login {
+padding: 9rem 2rem 6rem;
+background: linear-gradient(180deg, #f9fafb, #e5e7eb);
+text-align: center;
+position: relative;
+overflow: hidden;
+}
+.login::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+opacity: 0.1;
+z-index: 0;
+}
+.login-container {
+max-width: 500px;
+margin: 0 auto;
+background: #ffffff;
+padding: 2.5rem;
+border-radius: 1.2rem;
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+text-align: left;
+position: relative;
+z-index: 1;
+animation: fadeInUp 0.6s ease-out;
+}
+.login-container::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 4px;
+background: linear-gradient(90deg, #22c55e, #c57922);
+}
+.login-container h1 {
+font-size: 2rem;
+color: #c57922;
+margin-bottom: 1.5rem;
+font-weight: 600;
+text-align: center;
+}
+.login-container .form-group {
+position: relative;
+margin-bottom: 1.8rem;
+}
+.login-container label {
+position: absolute;
+top: 0.75rem;
+left: 0.75rem;
+font-size: 0.95rem;
+color: #6b7280;
+transition: all 0.3s ease;
+pointer-events: none;
+}
+.login-container input {
+width: 100%;
+padding: 1rem 0.75rem 0.5rem;
+border: 1px solid #d1d5db;
+border-radius: 0.5rem;
+font-size: 1rem;
+outline: none;
+background: #f9fafb;
+transition: all 0.3s ease;
+}
+.login-container input:focus {
+border-color: #22c55e;
+box-shadow: 0 0 8px rgba(34, 197, 94, 0.2);
+}
+.login-container input:focus + label,
+.login-container input:not(:placeholder-shown) + label {
+top: -0.5rem;
+left: 0.5rem;
+font-size: 0.8rem;
+color: #22c55e;
+background: #ffffff;
+padding: 0 0.25rem;
+}
+.login-container .forgot-password {
+text-align: right;
+margin-bottom: 1.5rem;
+}
+.login-container .forgot-password a {
+font-size: 0.9rem;
+color: #22c55e;
+text-decoration: none;
+transition: color 0.3s ease;
+}
+.login-container .forgot-password a:hover {
+color: #c57922;
+}
+.login-container button {
+background: linear-gradient(135deg, #22c55e, #c57922);
+color: white;
+border: none;
+padding: 1rem;
+border-radius: 999px;
+font-weight: 600;
+font-size: 1.1rem;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+width: 100%;
+display: block;
+}
+.login-container button:hover {
+background: linear-gradient(135deg, #c57922, #14532d);
+transform: translateY(-3px);
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+.login-container .register-link {
+text-align: center;
+margin-top: 1.5rem;
+font-size: 0.95rem;
+color: #374151;
+}
+.login-container .register-link a {
+color: #22c55e;
+text-decoration: none;
+font-weight: 500;
+transition: color 0.3s ease;
+}
+.login-container .register-link a:hover {
+color: #c57922;
+}
+.login-container .errorlist {
+color: #ef4444;
+font-size: 0.875rem;
+margin-top: 0.25rem;
+list-style: none;
+padding: 0;
+}
+.login-container .messages .error {
+color: #ef4444;
+background: #fee2e2;
+padding: 0.5rem;
+border-radius: 0.5rem;
+margin-bottom: 1rem;
+text-align: center;
+}
+.login-container .messages .success {
+color: #22c55e;
+background: #dcfce7;
+padding: 0.5rem;
+border-radius: 0.5rem;
+margin-bottom: 1rem;
+text-align: center;
+}
+.chatbot-button {
+position: fixed;
+bottom: 40px;
+right: 40px;
+background: linear-gradient(135deg, #22c55e, #c57922);
+color: white;
+border: none;
+width: 80px;
+height: 80px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+z-index: 1000;
+transition: all 0.3s ease;
+}
+.chatbot-button:hover {
+background: linear-gradient(135deg, #c57922, #14532d);
+transform: scale(1.15);
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+.chatbot-button img {
+width: 32px;
+height: 32px;
+}
+.chatbot-container {
+position: fixed;
+bottom: 140px;
+right: 40px;
+width: 340px;
+max-height: 480px;
+background: #ffffff;
+border-radius: 1.2rem;
+box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+display: none;
+flex-direction: column;
+z-index: 1000;
+overflow: hidden;
+animation: slideInUp 0.4s ease-out;
+}
+.chatbot-container.active {
+display: flex;
+}
+.chatbot-header {
+background: linear-gradient(90deg, #c57922, #c59122);
+color: white;
+padding: 1.2rem;
+font-size: 1.15rem;
+font-weight: 600;
+display: flex;
+justify-content: space-between;
+align-items: center;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.chatbot-header button {
+background: none;
+border: none;
+color: white;
+font-size: 1.5rem;
+cursor: pointer;
+transition: color 0.3s ease, transform 0.3s ease;
+}
+.chatbot-header button:hover {
+color: #86efac;
+transform: scale(1.2);
+}
+.chatbot-messages {
+flex: 1;
+padding: 1.8rem;
+overflow-y: auto;
+background: #f9fafb;
+}
+.chatbot-message {
+margin-bottom: 1.5rem;
+font-size: 0.95rem;
+line-height: 1.5;
+}
+.chatbot-message.bot {
+color: #c57922;
+background: #e5e7eb;
+padding: 0.8rem 1.2rem;
+border-radius: 1rem 1rem 1rem 0;
+max-width: 85%;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+.chatbot-message.user {
+color: #ffffff;
+background: linear-gradient(135deg, #c57122, #c57922);
+text-align: right;
+padding: 0.8rem 1.2rem;
+border-radius: 1rem 1rem 0 1rem;
+max-width: 85%;
+margin-left: auto;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+.chatbot-input {
+display: flex;
+border-top: 1px solid #e5e7eb;
+padding: 1rem;
+background: #ffffff;
+}
+.chatbot-input input {
+flex: 1;
+width: 70%;
+border: 1px solid #d1d5db;
+border-radius: 0.5rem;
+padding: 0.8rem;
+font-size: 0.95rem;
+outline: none;
+transition: all 0.3s ease;
+}
+.chatbot-input input:focus {
+border-color: #22c55e;
+box-shadow: 0 0 8px rgba(34, 197, 94, 0.2);
+}
+.chatbot-input button {
+background: linear-gradient(135deg, #22c55e, #c57922);
+color: white;
+border: none;
+padding: 0.8rem 1.8rem;
+border-radius: 0.5rem;
+margin-left: 1rem;
+cursor: pointer;
+font-weight: 600;
+transition: all 0.3s ease;
+box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+.chatbot-input button:hover {
+background: linear-gradient(135deg, #c57922, #14532d);
+transform: translateY(-2px);
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+footer {
+background: linear-gradient(90deg, #c57922, #c59122);
+color: #f3f4f6;
+padding: 4rem 2rem;
+position: relative;
+}
+.footer-container {
+max-width: 1280px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+gap: 2.5rem;
+}
+.footer-section {
+flex: 1;
+min-width: 220px;
+}
+.footer-section h3 {
+font-size: 1.3rem;
+font-weight: 600;
+margin-bottom: 1.8rem;
+color: #ffffff;
+text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.footer-section a,
+.footer-section p {
+font-size: 1rem;
+color: #d1d5db;
+text-decoration: none;
+display: block;
+margin-bottom: 0.8rem;
+transition: all 0.3s ease;
+}
+.footer-section a:hover {
+color: #86efac;
+transform: translateX(5px);
+}
+.footer-bottom {
+text-align: center;
+padding-top: 2.5rem;
+border-top: 1px solid #22c55e;
+margin-top: 2.5rem;
+font-size: 0.9rem;
+color: #d1d5db;
+}
+.footer-bottom a {
+color: #d1d5db;
+margin: 0 1rem;
+text-decoration: none;
+transition: all 0.3s ease;
+}
+.footer-bottom a:hover {
+color: #86efac;
+}
+@keyframes fadeInUp {
+from { opacity: 0; transform: translateY(30px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInUp {
+from { opacity: 0; transform: translateY(60px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 1024px) {
+.nav-links, .nav-buttons {
+display: none;
+}
+.mobile-menu-btn {
+display: block;
+}
+.mobile-menu.active {
+display: flex;
+}
+.login-container {
+max-width: 90%;
+}
+.chatbot-container {
+width: 90%;
+right: 5%;
+bottom: 100px;
+}
+}
+@media (max-width: 480px) {
+.login-container h1 {
+font-size: 1.8rem;
+}
+.login-container button {
+padding: 0.9rem;
+font-size: 1rem;
+}
+.chatbot-button {
+width: 70px;
+height: 70px;
+bottom: 30px;
+right: 30px;
+}
+.chatbot-button img {
+width: 28px;
+height: 28px;
+}
+}
+</style>
+</head>
+<body>
+<nav>
+<div class="nav-container">
+<div class="nav-logo">
+<img src="{% static 'icons/sew.png' %}" alt="CycleWorks Logo" />
+<span>CycleWorks</span>
+</div>
+<div class="nav-links">
+<a href="{% url 'home' %}">Home</a>
+<a href="{% url 'home' %}#about">About Circular Fashion</a>
+<a href="{% url 'product_landing' %}">Collections</a>
+<a href="{% url 'contact' %}">Contact Us</a>
+</div>
+<div class="nav-buttons">
+<a href="{% url 'register' %}"><button class="join-community">Join Community</button></a>
+<a href="{% url 'login' %}"><button class="join-community">Login</button></a>
+</div>
+<button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+</div>
+<div class="mobile-menu" id="mobileMenu">
+<a href="{% url 'home' %}">Home</a>
+<a href="{% url 'home' %}#about">About Circular Fashion</a>
+<a href="{% url 'product_landing' %}">Collections</a>
+<a href="{% url 'contact' %}">Contact Us</a>
+<a href="{% url 'register' %}"><button class="join-community">Join Community</button></a>
+<a href="{% url 'login' %}"><button class="join-community">Login</button></a>
+</div>
+</nav>
+<div class="login">
+<div class="login-container">
+<h1>Log In to CycleWorks</h1>
+{% if messages %}
+<div class="messages">
+{% for message in messages %}
+<div class="{{ message.tags }}">{{ message }}</div>
+{% endfor %}
+</div>
+{% endif %}
+<form method="POST" action="{% url 'login' %}">
+{% csrf_token %}
+{{ form.non_field_errors }}
+<div class="form-group">
+<input type="email" id="email" name="email" required>
+<label for="email">Email</label>
+{% if form.email.errors %}
+<ul class="errorlist">
+{% for error in form.email.errors %}
+<li>{{ error }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+</div>
+<div class="form-group">
+<input type="password" id="password" name="password" required>
+<label for="password">Password</label>
+{% if form.password.errors %}
+<ul class="errorlist">
+{% for error in form.password.errors %}
+<li>{{ error }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+</div>
+<div class="forgot-password">
+<a href="#">Forgot Password?</a>
+</div>
+{% if next %}
+<input type="hidden" name="next" value="{{ next }}">
+{% endif %}
+<button type="submit">Log In</button>
+</form>
+<div class="register-link">
+Don’t have an account? <a href="{% url 'register' %}">Join the community</a>
+</div>
+</div>
+</div>
+<button class="chatbot-button" onclick="toggleChatbot()">
+<img src="{% static 'icons/support.png' %}" alt="Chat Icon" />
+</button>
+<div class="chatbot-container" id="chatbotContainer">
+<div class="chatbot-header">
+<span>CycleWorks Assistant</span>
+<button onclick="toggleChatbot()">×</button>
+</div>
+<div class="chatbot-messages" id="chatbotMessages">
+<div class="chatbot-message bot">Hello! How can I assist you with circular fashion today? Ask about logging in, collections, or sustainability!</div>
+</div>
+<div class="chatbot-input">
+<input type="text" id="chatbotInput" placeholder="Type your question..." />
+<button onclick="sendMessage()">Send</button>
+</div>
+</div>
+<footer>
+<div class="footer-container">
+<div class="footer-section">
+<h3>CycleWorks</h3>
+
+</div>
+<div class="footer-section">
+<h3>Quick Links</h3>
+<a href="{% url 'home' %}">Home</a>
+<a href="{% url 'home' %}#about">About Circular Fashion</a>
+<a href="{% url 'product_landing' %}">Collections</a>
+<a href="{% url 'contact' %}">Contact Us</a>
+</div>
+<div class="footer-section">
+<h3>Contact</h3>
+<p>Email: support@cycleworks.ke</p>
+<p>Phone: +(254) 123 456 789</p>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 CycleWorks. All rights reserved.</p>
+<a href="#">Privacy Policy</a>
+<a href="#">Terms of Service</a>
+</div>
+</footer>
+<script>
+function toggleMobileMenu() {
+const mobileMenu = document.getElementById('mobileMenu');
+mobileMenu.classList.toggle('active');
+}
+function toggleChatbot() {
+const chatbotContainer = document.getElementById('chatbotContainer');
+chatbotContainer.classList.toggle('active');
+}
+function sendMessage() {
+const input = document.getElementById('chatbotInput');
+const messages = document.getElementById('chatbotMessages');
+const userMessage = input.value.trim().toLowerCase();
+if (userMessage) {
+const userDiv = document.createElement('div');
+userDiv.className = 'chatbot-message user';
+userDiv.textContent = userMessage;
+messages.appendChild(userDiv);
+let botResponse = "Sorry, I didn't understand that. Try asking about collections, swapping, or sustainability!";
+if (userMessage.includes('collection') || userMessage.includes('clothing') || userMessage.includes('fashion')) {
+botResponse = "Explore our recycled and upcycled clothing in the Collections section. Find sustainable styles!";
+} else if (userMessage.includes('swap') || userMessage.includes('exchange')) {
+botResponse = "Join our community to swap pre-loved clothes and contribute to a circular economy!";
+} else if (userMessage.includes('sustainability') || userMessage.includes('eco-friendly')) {
+botResponse = "Our clothing is made from recycled materials and upcycled designs to reduce waste!";
+} else if (userMessage.includes('contact') || userMessage.includes('support')) {
+botResponse = "Reach us at support@cycleworks.ke or call +(254) 123 456 789. Use our contact form for more options!";
+} else if (userMessage.includes('login') || userMessage.includes('log in') || userMessage.includes('account')) {
+botResponse = "Log in with your email and password above. Forgot your password? Use the reset link!";
+}
+const botDiv = document.createElement('div');
+botDiv.className = 'chatbot-message bot';
+botDiv.textContent = botResponse;
+messages.appendChild(botDiv);
+input.value = '';
+messages.scrollTop = messages.scrollHeight;
+}
+}
+document.getElementById('chatbotInput').addEventListener('keypress', function(e) {
+if (e.key === 'Enter') {
+sendMessage();
+}
+});
+document.addEventListener('DOMContentLoaded', function() {
+document.querySelector('input[name="email"]').focus();
+});
+</script>
+</body>
+</html>
+    <div class="nav-container">
+      <div class="nav-logo">
+        <img src="{% static 'icons/packaging.png' %}" alt="Tidy Pack Logo" />
+        <span>Tidy Pack</span>
+      </div>
+      <div class="nav-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'home' %}">About Us</a>
+        <a href="{% url 'product_landing' %}">Products</a>
+        <a href="{% url 'contact' %}">Contact Us</a>
+        
+      </div>
+      <div class="nav-buttons">
+      <a href="{% url 'login' %}"><button class="admin-login">Login</button></a>
+      <a href="{% url 'admin_login' %}"><button class="admin-login">Admin Login</button></a>
+      </div>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="{% url 'home' %}">Home</a>
+      <a href="{% url 'home' %}">About Us</a>
+      <a href="{% url 'product_landing' %}">Products</a>
+      <a href="{% url 'contact' %}">Contact Us</a>
+      <a href="{% url 'login' %}"><button class="admin-login">Login</button></a>
+      <a href="{% url 'admin_login' %}"><button class="admin-login">Admin Login</button></a>
+    </div>
+  </nav>
+
+  <!-- Login Section -->
+  <div class="login">
+    <div class="login-container">
+      <h1>Log In to Your Account</h1>
+      {% if messages %}
+        <div class="messages">
+          {% for message in messages %}
+            <div class="{{ message.tags }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-group">
+          {{ form.email }}
+          {% if form.email.errors %}
+            <ul class="errorlist">
+              {% for error in form.email.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          {{ form.password }}
+          {% if form.password.errors %}
+            <ul class="errorlist">
+              {% for error in form.password.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+        <div class="forgot-password">
+          <a href="#">Forgot Password?</a>
+        </div>
+        {% if next %}
+          <input type="hidden" name="next" value="{{ next }}">
+        {% endif %}
+        <button type="submit">Log In</button>
+      </form>
+      <div class="register-link">
+        Don’t have an account? <a href="{% url 'register' %}">Register here</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chatbot Button -->
+  <button class="chatbot-button" onclick="toggleChatbot()">
+    <img src="{% static 'icons/human.png' %}" alt="Chat Icon" />
+  </button>
+
+  <!-- Chatbot Container -->
+  <div class="chatbot-container" id="chatbotContainer">
+    <div class="chatbot-header">
+      <span>Tidy Pack Assistant</span>
+      <button onclick="toggleChatbot()">×</button>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages">
+      <div class="chatbot-message bot">Hello! How can I help you today? Ask about our products, orders, or quotes!</div>
+    </div>
+    <div class="chatbot-input">
+      <input type="text" id="chatbotInput" placeholder="Type your question..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>Tidy Pack</h3>
+        <p>Providing sustainable packaging solutions from Ngara, Nairobi Road, Kenya.</p>
+        <p>Committed to eco-friendly production since 2021.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <a href="">Home</a>
+        <a href="">Products</a>
+        <a href="">Contact Us</a>
+      </div>
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <p>Email: support@tidypack.ke</p>
+        <p>Phone: +(254) 123 456 789</p>
+        <p>Address: Ngara, Nairobi Road, Kenya</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Tidy Pack Limited. All rights reserved.</p>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMobileMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      mobileMenu.classList.toggle('active');
+    }
+
+    function toggleChatbot() {
+      const chatbotContainer = document.getElementById('chatbotContainer');
+      chatbotContainer.classList.toggle('active');
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chatbotInput');
+      const messages = document.getElementById('chatbotMessages');
+      const userMessage = input.value.trim().toLowerCase();
+
+      if (userMessage) {
+        const userDiv = document.createElement('div');
+        userDiv.className = 'chatbot-message user';
+        userDiv.textContent = userMessage;
+        messages.appendChild(userDiv);
+
+        let botResponse = "Sorry, I didn't understand that. Try asking about products, orders, or quotes!";
+        if (userMessage.includes('product') || userMessage.includes('box') || userMessage.includes('envelope')) {
+          botResponse = "Explore our eco-friendly envelopes and carton boxes in the Products section. Customize size, color, or branding!";
+        } else if (userMessage.includes('order') || userMessage.includes('buy')) {
+          botResponse = "You can place orders directly on our Order Now page. Select your products, customize, and track your order!";
+        } else if (userMessage.includes('quote') || userMessage.includes('price')) {
+          botResponse = "Request a custom quote on our Request a Quote page. Specify your packaging needs, and we’ll get back to you!";
+        } else if (userMessage.includes('contact') || userMessage.includes('support')) {
+          botResponse = "Reach us at support@tidypack.ke or call +(254) 123 456 789. Use our contact form for more options!";
+        }
+
+        const botDiv = document.createElement('div');
+        botDiv.className = 'chatbot-message bot';
+        botDiv.textContent = botResponse;
+        messages.appendChild(botDiv);
+
+        input.value = '';
+        messages.scrollTop = messages.scrollHeight;
+      }
+    }
+
+    document.getElementById('chatbotInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+
+    // Auto-focus email field
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelector('input[name="email"]').focus();
+    });
+  </script>
+</body>
+</html>

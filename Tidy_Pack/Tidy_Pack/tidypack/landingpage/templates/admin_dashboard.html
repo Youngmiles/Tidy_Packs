@@ -1,0 +1,756 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tidy Pack admin dashboard to manage orders, quotes, users, and reports for sustainable packaging solutions.">
+  <meta name="keywords" content="Tidy Pack admin dashboard, sustainable packaging, order management, Kenya">
+  <title>Admin Dashboard - CycleWorks</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="shortcut icon" href="{% static 'icons/sew.png' %}" type="image/x-icon">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #1e3a8a 0%, #111827 100%);
+      overflow-x: hidden;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 280px;
+      background: linear-gradient(180deg, rgba(20, 83, 45, 0.9), rgba(30, 58, 138, 0.9));
+      backdrop-filter: blur(8px);
+      color: white;
+      padding: 2.5rem 1.5rem;
+      position: fixed;
+      height: 100%;
+      z-index: 1000;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 3rem;
+    }
+
+    .sidebar-header img {
+      height: 3rem;
+      width: auto;
+      filter: brightness(0) invert(1);
+      transition: transform 0.4s ease;
+    }
+
+    .sidebar-header img:hover {
+      transform: scale(1.2) rotate(8deg);
+    }
+
+    .sidebar-header span {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #93c5fd;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .sidebar-menu p {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #93c5fd;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .sidebar-menu a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 500;
+      padding: 0.9rem 1.2rem;
+      border-radius: 0.6rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .sidebar-menu a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(8px);
+      color: #93c5fd;
+    }
+
+    .sidebar-menu a:hover i {
+      transform: scale(1.2);
+    }
+
+    .sidebar-menu a.active {
+      background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    }
+
+    .sidebar-menu a i {
+      font-size: 1.3rem;
+      transition: transform 0.3s ease;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+      color: white;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 0.6rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 1100;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu-btn:hover {
+      background: linear-gradient(135deg, #1e3a8a, #1e40af);
+      transform: scale(1.1);
+    }
+
+    .main-content {
+      margin-left: 280px;
+      flex: 1;
+      padding: 2.5rem;
+      background: radial-gradient(circle at center, #1e3a8a 0%, #111827 100%);
+      position: relative;
+    }
+
+    .main-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/clean-gray-paper.png');
+      opacity: 0.08;
+      z-index: 0;
+    }
+
+    .dashboard-header {
+      margin-bottom: 2.5rem;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .dashboard-header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #93c5fd;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      margin-bottom: 0.5rem;
+    }
+
+    .dashboard-header h1::before {
+      content: '\f023';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      font-size: 1.6rem;
+      margin-right: 0.75rem;
+      color: #3b82f6;
+    }
+
+    .dashboard-header p {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: #d1d5db;
+      opacity: 0.9;
+    }
+
+    .dashboard-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.75rem;
+      margin-bottom: 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .metric-card {
+      background: rgba(31, 41, 55, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 1.75rem;
+      border-radius: 1.2rem;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      position: relative;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .metric-card:nth-child(2) { animation-delay: 0.1s; }
+    .metric-card:nth-child(3) { animation-delay: 0.2s; }
+
+    .metric-card:hover {
+      transform: perspective(1000px) rotateY(8deg) rotateX(8deg) translateY(-5px);
+      box-shadow: 0 10px 24px rgba(59, 130, 246, 0.3);
+      border-color: rgba(59, 130, 246, 0.6);
+    }
+
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, #3b82f6, #22c55e);
+      border-radius: 1.2rem 1.2rem 0 0;
+    }
+
+    .metric-card i {
+      font-size: 2rem;
+      color: #3b82f6;
+      margin-bottom: 0.75rem;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .metric-card:hover i {
+      transform: scale(1.1);
+    }
+
+    .metric-card h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #e5e7eb;
+      margin-bottom: 0.75rem;
+    }
+
+    .metric-card p {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #3b82f6;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .recent-orders {
+      position: relative;
+      z-index: 1;
+    }
+
+    .recent-orders h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #93c5fd;
+      margin-bottom: 1.75rem;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .orders-table {
+      background: rgba(31, 41, 55, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: 1.2rem;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+      overflow-x: auto;
+      position: relative;
+      animation: fadeInUp 0.6s ease-out 0.3s;
+      animation-fill-mode: backwards;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .orders-table::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, #3b82f6, #22c55e);
+      border-radius: 1.2rem 1.2rem 0 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      color: #e5e7eb;
+    }
+
+    th, td {
+      padding: 1.2rem;
+      text-align: left;
+      font-size: 1rem;
+    }
+
+    th {
+      background: linear-gradient(135deg, #374151, #2d3748);
+      font-weight: 600;
+      color: #93c5fd;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    th i {
+      margin-right: 0.5rem;
+      color: #3b82f6;
+    }
+
+    tr {
+      border-bottom: 1px solid rgba(75, 85, 99, 0.5);
+      transition: background 0.3s ease;
+    }
+
+    tr:nth-child(even) {
+      background: rgba(55, 65, 81, 0.2);
+    }
+
+    tr:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(34, 197, 94, 0.1));
+    }
+
+    .status {
+      font-weight: 500;
+      padding: 0.3rem 0.8rem;
+      border-radius: 0.4rem;
+      display: inline-block;
+      font-size: 0.9rem;
+    }
+
+    .status.pending {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .status.processing {
+      background: #dbeafe;
+      color: #2563eb;
+    }
+
+    .status.shipped {
+      background: #d1fae5;
+      color: #059669;
+    }
+
+    .status.delivered {
+      background: #bfdbfe;
+      color: #1e3a8a;
+    }
+
+    td button {
+      background: linear-gradient(135deg, #3b82f6, #22c55e);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 0.6rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    td button:hover {
+      background: linear-gradient(135deg, #1e3a8a, #14532d);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    td button i {
+      font-size: 1rem;
+    }
+
+    .no-orders {
+      text-align: center;
+      padding: 1.5rem;
+      color: #9ca3af;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: rgba(31, 41, 55, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 1.2rem;
+      width: 90%;
+      max-width: 600px;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      position: relative;
+      animation: fadeInUp 0.3s ease-out;
+    }
+
+    .modal-content h2 {
+      font-size: 1.8rem;
+      color: #e5e7eb;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-content p {
+      font-size: 1rem;
+      color: #9ca3af;
+      margin-bottom: 1rem;
+    }
+
+    .modal-content button {
+      background: linear-gradient(135deg, #3b82f6, #22c55e);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.4rem;
+      border-radius: 0.6rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-content button:hover {
+      background: linear-gradient(135deg, #1e3a8a, #14532d);
+      transform: translateY(-3px);
+    }
+
+    .modal-content .close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: #e5e7eb;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .messages .success {
+      color: #22c55e;
+      background: #dcfce7;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .messages .error {
+      color: #ef4444;
+      background: #fee2e2;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    footer {
+      background: linear-gradient(90deg, #14532d, #1e3a8a);
+      color: #d1d5db;
+      padding: 4rem 2rem;
+      width: 100%;
+      margin-top: auto;
+    }
+
+    .footer-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .footer-section {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .footer-section h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1.8rem;
+      color: #ffffff;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .footer-section a,
+    .footer-section p {
+      font-size: 1.05rem;
+      color: #d1d5db;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .footer-section a:hover {
+      color: #93c5fd;
+      transform: translateX(8px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2.5rem;
+      border-top: 1px solid #3b82f6;
+      margin-top: 2.5rem;
+      font-size: 0.95rem;
+      color: #d1d5db;
+    }
+
+    .footer-bottom a {
+      color: #d1d5db;
+      margin: 0 1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .footer-bottom a:hover {
+      color: #93c5fd;
+      text-decoration: underline;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1024px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-header h1 {
+        font-size: 1.9rem;
+      }
+
+      .dashboard-header p {
+        font-size: 1rem;
+      }
+
+      .recent-orders h2 {
+        font-size: 1.6rem;
+      }
+
+      th, td {
+        font-size: 0.9rem;
+        padding: 0.9rem;
+      }
+
+      td button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      .metric-card h3 {
+        font-size: 1.2rem;
+      }
+
+      .metric-card p {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="{% static 'icons/sew.png' %}" alt="Tidy Pack Logo" />
+      <span>CycleWorks</span>
+    </div>
+    <div class="sidebar-menu">
+      <p>Admin Menu</p>
+      <a href="{% url 'admin_dashboard' %}" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+      <a href="{% url 'manage_orders' %}"><i class="fas fa-box-open"></i> Manage Swaps</a>
+      <a href="{% url 'manage_users' %}"><i class="fas fa-users"></i> Manage Users</a>
+      <a href="{% url 'product_manage' %}" class=""><i class="fas fa-boxes"></i> Manage Products</a>  <!-- Updated link and icon -->
+
+      <a href="{% url 'reports' %}"><i class="fas fa-chart-line"></i> Reports</a>
+      <a href="{% url 'admin_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      <hr style="border-color: #93c5fd; opacity: 0.3; margin: 1rem 0;">
+    </div>
+  </div>
+
+  <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle sidebar"><i class="fas fa-bars"></i></button>
+
+  <div class="main-content">
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="dashboard-header">
+      <h1>Welcome, {{ user.username }}</h1>
+      <p>Manage orders, quotes, users, and system settings for CycleWorks.</p>
+    </div>
+
+    <div class="dashboard-metrics">
+      <div class="metric-card">
+        <i class="fas fa-box-open"></i>
+        <h3>Total Orders</h3>
+        <p>{{ total_orders }}</p>
+      </div>
+      <div class="metric-card">
+        <i class="fas fa-quote-left"></i>
+        <h3>Pending Quotes</h3>
+        <p>{{ pending_quotes }}</p>
+      </div>
+      <div class="metric-card">
+        <i class="fas fa-users"></i>
+        <h3>Active Users</h3>
+        <p>{{ active_users }}</p>
+      </div>
+    </div>
+
+    <div class="recent-orders">
+      <h2>Recent Orders</h2>
+      <div class="orders-table">
+        <table>
+          <thead>
+            <tr>
+              <th><i class="fas fa-hashtag"></i> Order ID</th>
+              <th><i class="fas fa-user"></i> Customer</th>
+              <th><i class="fas fa-box"></i> Product</th>
+              <th><i class="fas fa-calendar-alt"></i> Date</th>
+              <th><i class="fas fa-info-circle"></i> Status</th>
+              <th><i class="fas fa-cog"></i> Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in recent_orders %}
+              <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.user.first_name|default:order.user.username }}</td>
+                <td>{{ order.product_name|default:"No Product" }}</td>
+                <td>{{ order.created_at|date:"M d, Y" }}</td>
+                <td><span class="status {{ order.status }}">{{ order.get_status_display }}</span></td>
+                <td>
+                  <button onclick="showOrderDetails('{{ order.id }}', '{{ order.user.first_name|default:order.user.username|escapejs }}', '{{ order.product_name|default:'No Product'|escapejs }}', '{{ order.quantity }}', '{{ order.created_at|date:'M d, Y'|escapejs }}', '{{ order.delivery_address|default:'No Address'|escapejs }}', '{{ order.notes|default:'None'|escapejs }}', '{{ order.get_status_display|escapejs }}')"><i class="fas fa-eye"></i> View</button>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="6" class="no-orders">No recent orders available.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="modal" id="orderModal">
+      <div class="modal-content">
+        <button class="close" onclick="closeModal()">×</button>
+        <h2>Order Details</h2>
+        <p><strong>ID:</strong> <span id="modal-id"></span></p>
+        <p><strong>Customer:</strong> <span id="modal-customer"></span></p>
+        <p><strong>Product:</strong> <span id="modal-product"></span></p>
+        <p><strong>Quantity:</strong> <span id="modal-quantity"></span></p>
+        <p><strong>Ordered on:</strong> <span id="modal-date"></span></p>
+        <p><strong>Delivery Address:</strong> <span id="modal-address"></span></p>
+        <p><strong>Notes:</strong> <span id="modal-notes"></span></p>
+        <p><strong>Status:</strong> <span id="modal-status"></span></p>
+        <button onclick="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>CycleWorks</h3>
+        
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'products' %}">Products</a>
+        <a href="{% url 'contact' %}">Contact Us</a>
+      </div>
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <p>Email: support@CycleWorks.ke</p>
+        <p>Phone: +(254) 123 456 789</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 CycleWorks Limited. All rights reserved.</p>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+    </div>
+  </footer>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('active');
+    }
+
+    function showOrderDetails(id, customer, product, quantity, date, address, notes, status) {
+      document.getElementById('modal-id').textContent = id;
+      document.getElementById('modal-customer').textContent = customer;
+      document.getElementById('modal-product').textContent = product;
+      document.getElementById('modal-quantity').textContent = quantity;
+      document.getElementById('modal-date').textContent = date;
+      document.getElementById('modal-address').textContent = address;
+      document.getElementById('modal-notes').textContent = notes;
+      document.getElementById('modal-status').textContent = status;
+      document.getElementById('orderModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('orderModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

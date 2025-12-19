@@ -1,0 +1,826 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CycleWorks - Embrace circular fashion with sustainable clothing solutions in Kenya. Discover recycled apparel, upcycled designs, and eco-friendly practices.">
+<meta name="keywords" content="circular fashion, sustainable clothing, recycled apparel, upcycled fashion Kenya, CycleWorks">
+<title>CycleWorks - Circular Fashion Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="shortcut icon" href="{% static 'icons/sew.png' %}" type="image/x-icon">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Poppins', sans-serif;
+}
+body {
+background: #f9fafb;
+overflow-x: hidden;
+}
+nav {
+background: linear-gradient(90deg, #8a440bff, #9c630c);
+color: white;
+padding: 1.2rem;
+position: fixed;
+width: 100%;
+z-index: 1000;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.nav-container {
+max-width: 1280px;
+margin: 0 auto;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.nav-logo {
+display: flex;
+align-items: center;
+gap: 0.75rem;
+}
+.nav-logo img {
+height: 2.5rem;
+width: auto;
+filter: brightness(0) invert(1);
+transition: transform 0.3s ease;
+}
+.nav-logo img:hover {
+transform: scale(1.1);
+}
+.nav-logo span {
+font-size: 1.5rem;
+font-weight: 700;
+color: #9ae6b4;
+letter-spacing: 0.05rem;
+}
+.nav-links {
+display: flex;
+gap: 2rem;
+}
+.nav-links a {
+color: white;
+text-decoration: none;
+font-size: 1rem;
+font-weight: 500;
+transition: color 0.3s ease, transform 0.3s ease;
+}
+.nav-links a:hover {
+color: #9ae6b4;
+transform: translateY(-2px);
+}
+.nav-buttons {
+display: flex;
+gap: 0.75rem;
+}
+.nav-buttons button {
+background: linear-gradient(135deg, #38a169, #2f855a);
+color: white;
+border: none;
+padding: 0.7rem 1.8rem;
+border-radius: 999px;
+font-weight: 600;
+font-size: 0.95rem;
+cursor: pointer;
+transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.nav-buttons button:hover {
+background: linear-gradient(135deg, #2f855a, #276749);
+transform: translateY(-2px);
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.nav-buttons .join-community {
+background: linear-gradient(135deg, #68d391, #38a169);
+}
+.nav-buttons .join-community:hover {
+background: linear-gradient(135deg, #38a169, #2f855a);
+}
+.mobile-menu-btn {
+display: none;
+background: none;
+border: none;
+color: white;
+font-size: 2rem;
+cursor: pointer;
+transition: transform 0.3s ease;
+}
+.mobile-menu-btn:hover {
+transform: scale(1.1);
+}
+.mobile-menu {
+display: none;
+flex-direction: column;
+gap: 1.2rem;
+position: absolute;
+top: 100%;
+left: 0;
+right: 0;
+background: linear-gradient(90deg, #2f855a, #38a169);
+padding: 2rem;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.mobile-menu a, .mobile-menu button {
+color: white;
+text-decoration: none;
+font-size: 1.1rem;
+font-weight: 500;
+padding: 0.6rem 1rem;
+border-radius: 0.5rem;
+transition: background 0.3s ease, transform 0.3s ease;
+}
+.mobile-menu a:hover, .mobile-menu button:hover {
+background: rgba(255, 255, 255, 0.1);
+transform: translateX(5px);
+}
+.mobile-menu button {
+width: 100%;
+text-align: center;
+background: linear-gradient(135deg, #38a169, #2f855a);
+border: none;
+padding: 0.7rem;
+border-radius: 999px;
+font-weight: 600;
+cursor: pointer;
+transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.mobile-menu button:hover {
+background: linear-gradient(135deg, #2f855a, #276749);
+transform: translateY(-2px);
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.mobile-menu .join-community {
+background: linear-gradient(135deg, #68d391, #38a169);
+}
+.mobile-menu .join-community:hover {
+background: linear-gradient(135deg, #38a169, #2f855a);
+}
+.hero {
+background: linear-gradient(135deg, #85602f, #d39c68);
+color: white;
+padding: 8rem 2rem 5rem;
+position: relative;
+overflow: hidden;
+}
+.hero::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+opacity: 0.1;
+z-index: 0;
+}
+.hero-container {
+max-width: 1280px;
+margin: 0 auto;
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 3rem;
+position: relative;
+z-index: 1;
+}
+.hero-text {
+text-align: left;
+animation: fadeInLeft 1s ease-out;
+}
+.hero-text h1 {
+font-size: 3rem;
+font-weight: 700;
+line-height: 1.2;
+margin-bottom: 1.5rem;
+}
+.hero-text p {
+font-size: 1.2rem;
+font-weight: 300;
+max-width: 550px;
+margin-bottom: 2.5rem;
+opacity: 0.9;
+}
+.hero-text .buttons {
+display: flex;
+gap: 1.2rem;
+}
+.hero-text .buttons button {
+background: linear-gradient(135deg, #38a169, #2f855a);
+color: white;
+border: none;
+padding: 1rem 2.2rem;
+border-radius: 999px;
+font-weight: 600;
+font-size: 1.1rem;
+cursor: pointer;
+transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.hero-text .buttons button:hover {
+background: linear-gradient(135deg, #2f855a, #276749);
+transform: translateY(-2px);
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.hero-text .buttons .join-community {
+background: linear-gradient(135deg, #68d391, #38a169);
+}
+.hero-text .buttons .join-community:hover {
+background: linear-gradient(135deg, #38a169, #2f855a);
+}
+.hero-image {
+flex: 1;
+text-align: right;
+animation: fadeInRight 1s ease-out;
+}
+.hero-image img {
+max-width: 100%;
+border-radius: 1rem;
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+transition: transform 0.3s ease;
+}
+.hero-image img:hover {
+transform: scale(1.05);
+}
+.problem-statement {
+padding: 5rem 2rem;
+text-align: center;
+background: #ffffff;
+position: relative;
+overflow: hidden;
+}
+.problem-statement::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: url('https://www.transparenttextures.com/patterns/subtle-dots.png');
+opacity: 0.05;
+}
+.problem-statement h2 {
+font-size: 2.5rem;
+font-weight: 700;
+margin-bottom: 1.5rem;
+color: #2f855a;
+position: relative;
+z-index: 1;
+}
+.problem-statement p {
+font-size: 1.1rem;
+color: #4b5563;
+max-width: 700px;
+margin: 0 auto;
+position: relative;
+z-index: 1;
+}
+.features {
+padding: 5rem 2rem;
+background: #f9fafb;
+text-align: center;
+}
+.features h2 {
+font-size: 2.5rem;
+font-weight: 700;
+margin-bottom: 2.5rem;
+color: #2f855a;
+}
+.features-list {
+max-width: 1280px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap: 2rem;
+}
+.feature-item {
+background: #ffffff;
+padding: 2rem;
+border-radius: 1rem;
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.feature-item:hover {
+transform: translateY(-10px);
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+.feature-item img {
+height: 48px;
+width: 48px;
+margin-bottom: 1.5rem;
+}
+.feature-item h3 {
+font-size: 1.4rem;
+color: #2f855a;
+margin-bottom: 0.75rem;
+}
+.feature-item p {
+font-size: 1rem;
+color: #4b5563;
+font-weight: 300;
+}
+.how-it-works {
+padding: 5rem 2rem;
+text-align: center;
+background: #f1f5f9;
+}
+.how-it-works h2 {
+font-size: 2.5rem;
+font-weight: 700;
+margin-bottom: 1.5rem;
+color: #2f855a;
+}
+.how-it-works p {
+font-size: 1.1rem;
+color: #4b5563;
+max-width: 700px;
+margin: 0 auto 2.5rem;
+}
+.work-steps {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap: 2rem;
+max-width: 1280px;
+margin: 0 auto;
+}
+.work-step {
+background: linear-gradient(135deg, #ffffff, #f3f4f6);
+padding: 2.5rem;
+border-radius: 1.5rem;
+box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+text-align: left;
+transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+backdrop-filter: blur(5px);
+animation: fadeInUp 0.6s ease-out forwards;
+opacity: 0;
+}
+.work-step:nth-child(1) { animation-delay: 0.2s; }
+.work-step:nth-child(2) { animation-delay: 0.4s; }
+.work-step:nth-child(3) { animation-delay: 0.6s; }
+.work-step:hover {
+transform: translateY(-12px) scale(1.02);
+box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+}
+.work-step img {
+height: 64px;
+width: 64px;
+margin-bottom: 1.5rem;
+transition: transform 0.3s ease;
+}
+.work-step:hover img {
+transform: rotate(5deg) scale(1.1);
+}
+.work-step h3 {
+font-size: 1.5rem;
+margin-bottom: 0.75rem;
+color: #2f855a;
+font-weight: 600;
+}
+.work-step p {
+font-size: 1.05rem;
+color: #4b5563;
+font-weight: 400;
+line-height: 1.6;
+}
+.chatbot-button {
+position: fixed;
+bottom: 30px;
+right: 30px;
+background: linear-gradient(135deg, #38a169, #2f855a);
+color: white;
+border: none;
+width: 70px;
+height: 70px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+z-index: 1000;
+transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.chatbot-button:hover {
+background: linear-gradient(135deg, #2f855a, #276749);
+transform: scale(1.1);
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+.chatbot-button img {
+width: 28px;
+height: 28px;
+}
+.chatbot-container {
+position: fixed;
+bottom: 120px;
+right: 30px;
+width: 320px;
+max-height: 450px;
+background: #ffffff;
+border-radius: 1rem;
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+display: none;
+flex-direction: column;
+z-index: 1000;
+overflow: hidden;
+animation: slideInUp 0.3s ease-out;
+}
+.chatbot-container.active {
+display: flex;
+}
+.chatbot-header {
+background: linear-gradient(90deg, #2f855a, #38a169);
+color: white;
+padding: 1rem;
+font-size: 1.1rem;
+font-weight: 600;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.chatbot-header button {
+background: none;
+border: none;
+color: white;
+font-size: 1.4rem;
+cursor: pointer;
+transition: color 0.3s ease;
+}
+.chatbot-header button:hover {
+color: #9ae6b4;
+}
+.chatbot-messages {
+flex: 1;
+padding: 1.5rem;
+overflow-y: auto;
+background: #f9fafb;
+}
+.chatbot-message {
+margin-bottom: 1.2rem;
+font-size: 0.95rem;
+line-height: 1.4;
+}
+.chatbot-message.bot {
+color: #2f855a;
+background: #e5e7eb;
+padding: 0.75rem 1rem;
+border-radius: 0.75rem 0.75rem 0.75rem 0;
+max-width: 80%;
+}
+.chatbot-message.user {
+color: #ffffff;
+background: #38a169;
+text-align: right;
+padding: 0.75rem 1rem;
+border-radius: 0.75rem 0.75rem 0 0.75rem;
+max-width: 80%;
+margin-left: auto;
+}
+.chatbot-input {
+display: flex;
+border-top: 1px solid #e5e7eb;
+padding: 0.75rem;
+background: #ffffff;
+}
+.chatbot-input input {
+flex: 1;
+border: 1px solid #d1d5db;
+border-radius: 0.5rem;
+padding: 0.75rem;
+font-size: 0.95rem;
+outline: none;
+transition: border-color 0.3s ease;
+width: 70%;
+}
+.chatbot-input input:focus {
+border-color: #38a169;
+}
+.chatbot-input button {
+background: linear-gradient(135deg, #38a169, #2f855a);
+color: white;
+border: none;
+padding: 0.75rem 1.5rem;
+border-radius: 0.5rem;
+margin-left: 0.75rem;
+cursor: pointer;
+font-weight: 600;
+transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.chatbot-input button:hover {
+background: linear-gradient(135deg, #a55f1d, #b17419);
+transform: translateY(-2px);
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+footer {
+background: linear-gradient(90deg, #854f2f, #99740f);
+color: #f3f4f6;
+padding: 3rem 2rem;
+}
+.footer-container {
+max-width: 1280px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 2rem;
+}
+.footer-section {
+flex: 1;
+min-width: 200px;
+}
+.footer-section h3 {
+font-size: 1.2rem;
+font-weight: 600;
+margin-bottom: 1.5rem;
+color: #ffffff;
+}
+.footer-section a,
+.footer-section p {
+font-size: 0.95rem;
+color: #d1d5db;
+text-decoration: none;
+display: block;
+margin-bottom: 0.75rem;
+transition: color 0.3s ease;
+}
+.footer-section a:hover {
+color: #9ae6b4;
+}
+.footer-bottom {
+text-align: center;
+padding-top: 2rem;
+border-top: 1px solid #38a169;
+margin-top: 2rem;
+font-size: 0.85rem;
+color: #d1d5db;
+}
+.footer-bottom a {
+color: #d1d5db;
+margin: 0 0.75rem;
+text-decoration: none;
+transition: color 0.3s ease;
+}
+.footer-bottom a:hover {
+color: #9ae6b4;
+}
+@keyframes fadeInLeft {
+from { opacity: 0; transform: translateX(-50px); }
+to { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight {
+from { opacity: 0; transform: translateX(50px); }
+to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInUp {
+from { opacity: 0; transform: translateY(50px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 1024px) {
+.nav-links, .nav-buttons {
+display: none;
+}
+.mobile-menu-btn {
+display: block;
+}
+.mobile-menu.active {
+display: flex;
+}
+.hero-container {
+flex-direction: column;
+text-align: center;
+}
+.hero-text {
+text-align: center;
+}
+.hero-text h1 {
+font-size: 2.5rem;
+}
+.hero-text p {
+font-size: 1.1rem;
+max-width: 90%;
+margin: 0 auto 2rem;
+}
+.hero-image {
+text-align: center;
+margin-top: 2rem;
+}
+.hero-image img {
+width: 180%;
+}
+.chatbot-container {
+width: 90%;
+right: 5%;
+bottom: 80px;
+}
+}
+@media (max-width: 480px) {
+.hero-text h1 {
+font-size: 2rem;
+}
+.hero-text .buttons button {
+padding: 0.8rem 1.5rem;
+font-size: 1rem;
+}
+.feature-item, .work-step {
+width: 100%;
+}
+.work-step {
+padding: 2rem;
+}
+.work-step img {
+height: 56px;
+width: 56px;
+}
+.work-step h3 {
+font-size: 1.4rem;
+}
+.work-step p {
+font-size: 1rem;
+}
+}
+</style>
+</head>
+<body>
+<nav>
+<div class="nav-container">
+<div class="nav-logo">
+<img src="{% static 'icons/sew.png' %}" alt="CycleWorks Logo" />
+<span>CycleWorks</span>
+</div>
+<div class="nav-links">
+<a href="{% url 'home' %}">Home</a>
+<a href="#about">About Circular Fashion</a>
+<a href="{% url 'product_landing' %}">Collections</a>
+<a href="{% url 'contact' %}">Contact Us</a>
+</div>
+<div class="nav-buttons">
+<a href="{% url 'register' %}"><button class="join-community">Join Community</button></a>
+<a href="{% url 'login' %}"><button>Login</button></a>
+</div>
+<button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+</div>
+<div class="mobile-menu" id="mobileMenu">
+<a href="#home">Home</a>
+<a href="#about">About Circular Fashion</a>
+<a href="{% url 'home' %}">Collections</a>
+<a href="{% url 'contact' %}">Contact Us</a>
+<a href="{% url 'register' %}"><button class="join-community">Join Community</button></a>
+<a href="{% url 'login' %}"><button>Login</button></a>
+</div>
+</nav>
+<div class="hero" id="home">
+<div class="hero-container">
+<div class="hero-text">
+<h1>Embrace Circular Fashion with CycleWorks</h1>
+<p>Discover sustainable, recycled, and upcycled clothing that reduces waste and promotes eco-conscious style. Join our community to shop or contribute to a greener future.</p>
+<div class="buttons">
+<a href="{% url 'admin_login' %}"><button>Admin login</button></a>
+<a href="{% url 'register' %}"><button class="join-community">Join Community</button></a>
+</div>
+</div>
+<div class="hero-image">
+<img src="{% static 'icons/fern.png' %}" alt="Sustainable Fashion" />
+</div>
+</div>
+</div>
+<div class="problem-statement" id="about">
+<h2>Why Circular Fashion Matters</h2>
+<p>The fashion industry generates massive waste. CycleWorks tackles this by offering recycled and upcycled clothing, reducing environmental impact while keeping you stylish.</p>
+</div>
+<div class="features">
+<h2>Why Choose CycleWorks?</h2>
+<div class="features-list">
+<div class="feature-item">
+<img src="{% static 'icons/recycle.png' %}" alt="Recycled Icon" />
+<h3>Recycled Materials</h3>
+<p>Our clothing is made from recycled fabrics, reducing waste and environmental impact.</p>
+</div>
+<div class="feature-item">
+<img src="{% static 'icons/upcycle.png' %}" alt="Upcycle Icon" />
+<h3>Upcycled Designs</h3>
+<p>Transforming pre-loved items into unique, stylish pieces for a sustainable wardrobe.</p>
+</div>
+<div class="feature-item">
+<img src="{% static 'icons/community.png' %}" alt="Community Icon" />
+<h3>Community Driven</h3>
+<p>Join our community to swap, share, or donate clothes for a circular economy.</p>
+</div>
+<div class="feature-item">
+<img src="{% static 'icons/support.png' %}" alt="Support Icon" />
+<h3>Live Support</h3>
+<p>Connect with us via live chat for help with collections or sustainability tips.</p>
+</div>
+</div>
+</div>
+<div class="how-it-works">
+<h2>How CycleWorks Works</h2>
+<p>Engaging with circular fashion is easy and impactful with CycleWorks.</p>
+<div class="work-steps">
+<div class="work-step">
+<img src="{% static 'icons/collection.png' %}" alt="Browse Icon" />
+<h3>Explore Collections</h3>
+<p>Browse our range of recycled and upcycled clothing designs.</p>
+</div>
+<div class="work-step">
+<img src="{% static 'icons/swap.png' %}" alt="Customize Icon" />
+<h3>Shop or Swap</h3>
+<p>Purchase sustainable fashion or swap your pre-loved clothes.</p>
+</div>
+<div class="work-step">
+<img src="{% static 'icons/heal.png' %}" alt="Impact Icon" />
+<h3>Make an Impact</h3>
+<p>Contribute to a circular economy and reduce fashion waste.</p>
+</div>
+</div>
+</div>
+<button class="chatbot-button" onclick="toggleChatbot()">
+<img src="{% static 'icons/support.png' %}" alt="Chat Icon" />
+</button>
+<div class="chatbot-container" id="chatbotContainer">
+<div class="chatbot-header">
+<span>CycleWorks Assistant</span>
+<button onclick="toggleChatbot()">×</button>
+</div>
+<div class="chatbot-messages" id="chatbotMessages">
+<div class="chatbot-message bot">Hello! How can I assist you with circular fashion today? Ask about collections, swapping, or sustainability!</div>
+</div>
+<div class="chatbot-input">
+<input type="text" id="chatbotInput" placeholder="Type your question..." />
+<button onclick="sendMessage()">Send</button>
+</div>
+</div>
+<footer id="contact">
+<div class="footer-container">
+<div class="footer-section">
+<h3>CycleWorks</h3>
+
+</div>
+<div class="footer-section">
+<h3>Quick Links</h3>
+<a href="#">Home</a>
+<a href="#about">About Circular Fashion</a>
+<a href="#">Collections</a>
+<a href="#">Contact Us</a>
+</div>
+<div class="footer-section">
+<h3>Contact</h3>
+<p>Email: support@cycleworks.ke</p>
+<p>Phone: +(254) 123 456 789</p>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 CycleWorks. All rights reserved.</p>
+<a href="#">Privacy Policy</a>
+<a href="#">Terms of Service</a>
+</div>
+</footer>
+<script>
+function toggleMobileMenu() {
+const mobileMenu = document.getElementById('mobileMenu');
+mobileMenu.classList.toggle('active');
+}
+function toggleChatbot() {
+const chatbotContainer = document.getElementById('chatbotContainer');
+chatbotContainer.classList.toggle('active');
+}
+function sendMessage() {
+const input = document.getElementById('chatbotInput');
+const messages = document.getElementById('chatbotMessages');
+const userMessage = input.value.trim().toLowerCase();
+if (userMessage) {
+const userDiv = document.createElement('div');
+userDiv.className = 'chatbot-message user';
+userDiv.textContent = userMessage;
+messages.appendChild(userDiv);
+let botResponse = "Sorry, I didn't understand that. Try asking about collections, swapping, or sustainability!";
+if (userMessage.includes('collection') || userMessage.includes('clothing') || userMessage.includes('fashion')) {
+botResponse = "Explore our recycled and upcycled clothing in the Collections section. Find sustainable styles!";
+} else if (userMessage.includes('swap') || userMessage.includes('exchange')) {
+botResponse = "Join our community to swap pre-loved clothes and contribute to a circular economy!";
+} else if (userMessage.includes('sustainability') || userMessage.includes('eco-friendly')) {
+botResponse = "Our clothing is made from recycled materials and upcycled designs to reduce waste!";
+} else if (userMessage.includes('contact') || userMessage.includes('support')) {
+botResponse = "Reach us at support@cycleworks.ke or call +(254) 123 456 789. Visit our Contact Us page!";
+}
+const botDiv = document.createElement('div');
+botDiv.className = 'chatbot-message bot';
+botDiv.textContent = botResponse;
+messages.appendChild(botDiv);
+input.value = '';
+messages.scrollTop = messages.scrollHeight;
+}
+}
+document.getElementById('chatbotInput').addEventListener('keypress', function(e) {
+if (e.key === 'Enter') {
+sendMessage();
+}
+});
+</script>
+</body>
+</html>

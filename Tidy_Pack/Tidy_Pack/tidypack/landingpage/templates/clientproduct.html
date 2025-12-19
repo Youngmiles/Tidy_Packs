@@ -1,0 +1,628 @@
+<!-- Updated clientproduct.html (Replace your entire template with this - adds dynamic product loop below hardcoded ones) -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Explore CycleWorks' sustainable clothing collections for swapping, promoting circular fashion in Thindigua, Kenya.">
+<meta name="keywords" content="CycleWorks collections, circular fashion, clothing swaps, sustainable fashion, Kenya">
+<title>Collections - CycleWorks</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="shortcut icon" href="{% static 'icons/sew.png' %}" type="image/x-icon">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Poppins', sans-serif;
+}
+body {
+background: radial-gradient(circle at center, #f9fafb 0%, #e5e7eb 100%);
+overflow-x: hidden;
+line-height: 1.6;
+display: flex;
+flex-direction: column;
+min-height: 100vh;
+}
+.sidebar {
+width: 280px;
+background: linear-gradient(180deg, #c57922, #c57922);
+backdrop-filter: blur(8px);
+color: white;
+padding: 2.5rem 1.5rem;
+position: fixed;
+height: 100%;
+z-index: 1000;
+box-shadow: 2px 0 12px rgba(0, 0, 0, 0.3);
+transition: transform 0.3s ease;
+}
+.sidebar-header {
+display: flex;
+align-items: center;
+gap: 0.75rem;
+margin-bottom: 3rem;
+}
+.sidebar-header img {
+height: 3rem;
+width: auto;
+filter: brightness(0) invert(1);
+transition: transform 0.4s ease;
+}
+.sidebar-header img:hover {
+transform: scale(1.2) rotate(8deg);
+}
+.sidebar-header span {
+font-size: 1.8rem;
+font-weight: 700;
+color: #86efac;
+text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.sidebar-menu {
+display: flex;
+flex-direction: column;
+gap: 0.75rem;
+}
+.sidebar-menu p {
+font-size: 1.2rem;
+font-weight: 600;
+color: #86efac;
+margin-bottom: 1rem;
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+.sidebar-menu a {
+color: white;
+text-decoration: none;
+font-size: 1.1rem;
+font-weight: 500;
+padding: 0.9rem 1.2rem;
+border-radius: 0.6rem;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+gap: 0.75rem;
+}
+.sidebar-menu a:hover {
+background: rgba(255, 255, 255, 0.1);
+transform: translateX(8px);
+color: #86efac;
+}
+.sidebar-menu a:hover i {
+transform: scale(1.2);
+}
+.sidebar-menu a.active {
+background: linear-gradient(135deg, #c57922, #c57922);
+color: #ffffff;
+box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+.sidebar-menu a i {
+font-size: 1.3rem;
+transition: transform 0.3s ease;
+}
+.mobile-menu-btn {
+display: none;
+position: fixed;
+top: 1.5rem;
+left: 1.5rem;
+background: linear-gradient(135deg, #c57922, #c57922);
+color: white;
+border: none;
+padding: 0.8rem;
+border-radius: 0.6rem;
+font-size: 1.5rem;
+cursor: pointer;
+z-index: 1100;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+transition: all 0.3s ease;
+}
+.mobile-menu-btn:hover {
+background: linear-gradient(135deg, #c57922, #14532d);
+transform: scale(1.1);
+}
+.main-content {
+margin-left: 280px;
+flex: 1;
+padding: 2.5rem;
+background: radial-gradient(circle at center, #f9fafb 0%, #e5e7eb 100%);
+position: relative;
+}
+.main-content::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: url('https://www.transparenttextures.com/patterns/clean-gray-paper.png');
+opacity: 0.08;
+z-index: 0;
+}
+.products-header {
+margin-bottom: 2.5rem;
+position: relative;
+z-index: 1;
+}
+.products-header h1 {
+font-size: 2.2rem;
+font-weight: 700;
+color: #c57922;
+text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+margin-bottom: 0.5rem;
+}
+.products-header h1::before {
+content: '\f466';
+font-family: 'Font Awesome 6 Free';
+font-weight: 900;
+font-size: 1.6rem;
+margin-right: 0.75rem;
+color: #c57922;
+}
+.products-header p {
+font-size: 1.1rem;
+font-weight: 400;
+color: #374151;
+opacity: 0.9;
+}
+.products-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 2rem;
+position: relative;
+z-index: 1;
+}
+.product-card {
+background: rgba(255, 255, 255, 0.85);
+backdrop-filter: blur(10px);
+padding: 1.5rem;
+border-radius: 1.2rem;
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+text-align: center;
+transition: transform 0.4s ease, box-shadow 0.4s ease;
+border: 1px solid rgba(34, 197, 94, 0.3);
+animation: fadeInUp 0.6s ease-out;
+overflow: hidden;
+position: relative;
+}
+.product-card:nth-child(2) { animation-delay: 0.1s; }
+.product-card:nth-child(3) { animation-delay: 0.2s; }
+.product-card:nth-child(4) { animation-delay: 0.3s; }
+.product-card:hover {
+transform: perspective(1000px) rotateY(8deg) rotateX(8deg) translateY(-5px);
+box-shadow: 0 10px 24px rgba(34, 197, 94, 0.3);
+border-color: rgba(34, 197, 94, 0.6);
+}
+.product-card::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 5px;
+background: linear-gradient(90deg, #c57922, #c57922);
+border-radius: 1.2rem 1.2rem 0 0;
+}
+.product-card img {
+width: 100%;
+height: 200px;
+object-fit: cover;
+border-radius: 0.8rem;
+margin-bottom: 1rem;
+transition: transform 0.4s ease;
+}
+.product-card:hover img {
+transform: scale(1.05);
+}
+.product-card h3 {
+font-size: 1.4rem;
+font-weight: 600;
+color: #374151;
+margin-bottom: 0.75rem;
+}
+.product-card p {
+font-size: 1rem;
+color: #6b7280;
+margin-bottom: 1rem;
+}
+.product-card button {
+background: linear-gradient(135deg, #c57922, #c57922);
+color: white;
+border: none;
+padding: 0.7rem 1.4rem;
+border-radius: 0.6rem;
+font-weight: 500;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+display: inline-flex;
+align-items: center;
+gap: 0.5rem;
+}
+.product-card button:hover {
+background: linear-gradient(135deg, #c57922, #14532d);
+transform: translateY(-3px);
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+.product-card button i {
+font-size: 1rem;
+}
+.popup-overlay {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.6);
+z-index: 2000;
+align-items: center;
+justify-content: center;
+backdrop-filter: blur(5px);
+}
+.popup-form {
+background: rgba(255, 255, 255, 0.95);
+backdrop-filter: blur(10px);
+padding: 2rem;
+border-radius: 1.2rem;
+width: 90%;
+max-width: 500px;
+box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+position: relative;
+animation: popupFadeIn 0.4s ease-out;
+border: 1px solid rgba(34, 197, 94, 0.4);
+}
+.popup-form h2 {
+font-size: 1.8rem;
+font-weight: 600;
+color: #c57922;
+margin-bottom: 1.5rem;
+text-align: center;
+}
+.popup-form label {
+font-size: 1rem;
+font-weight: 500;
+color: #374151;
+display: block;
+margin-bottom: 0.5rem;
+}
+.popup-form input,
+.popup-form textarea {
+width: 100%;
+padding: 0.7rem;
+border: 1px solid rgba(34, 197, 94, 0.3);
+border-radius: 0.6rem;
+font-size: 1rem;
+color: #374151;
+margin-bottom: 1rem;
+transition: all 0.3s ease;
+}
+.popup-form input:focus,
+.popup-form textarea:focus {
+outline: none;
+border-color: #c57922;
+box-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
+}
+.popup-form textarea {
+resize: vertical;
+min-height: 100px;
+}
+.popup-form .form-actions {
+display: flex;
+gap: 1rem;
+justify-content: center;
+}
+.popup-form button {
+background: linear-gradient(135deg, #c57922, #c57922);
+color: white;
+border: none;
+padding: 0.7rem 1.4rem;
+border-radius: 0.6rem;
+font-weight: 500;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+.popup-form button:hover {
+background: linear-gradient(135deg, #c57922, #14532d);
+transform: translateY(-2px);
+}
+.popup-form .close-btn {
+background: linear-gradient(135deg, #ef4444, #b91c1c);
+}
+.popup-form .close-btn:hover {
+background: linear-gradient(135deg, #b91c1c, #991b1b);
+}
+.popup-form .error {
+color: #b91c1c;
+font-size: 0.9rem;
+margin-bottom: 1rem;
+display: none;
+text-align: center;
+}
+footer {
+background: linear-gradient(90deg, #c57922, #c57922);
+color: #f3f4f6;
+padding: 4rem 2rem;
+width: 100%;
+margin-top: auto;
+}
+.footer-container {
+max-width: 1280px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+gap: 2.5rem;
+}
+.footer-section {
+flex: 1;
+min-width: 220px;
+}
+.footer-section h3 {
+font-size: 1.4rem;
+font-weight: 700;
+margin-bottom: 1.8rem;
+color: #ffffff;
+text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.footer-section a,
+.footer-section p {
+font-size: 1.05rem;
+color: #d1d5db;
+text-decoration: none;
+display: block;
+margin-bottom: 0.9rem;
+transition: all 0.3s ease;
+}
+.footer-section a:hover {
+color: #86efac;
+transform: translateX(8px);
+}
+.footer-bottom {
+text-align: center;
+padding-top: 2.5rem;
+border-top: 1px solid #c57922;
+margin-top: 2.5rem;
+font-size: 0.95rem;
+color: #d1d5db;
+}
+.footer-bottom a {
+color: #d1d5db;
+margin: 0 1rem;
+text-decoration: none;
+transition: all 0.3s ease;
+}
+.footer-bottom a:hover {
+color: #86efac;
+text-decoration: underline;
+}
+@keyframes fadeInUp {
+from { opacity: 0; transform: translateY(30px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@keyframes popupFadeIn {
+from { opacity: 0; transform: scale(0.8); }
+to { opacity: 1; transform: scale(1); }
+}
+@media (max-width: 1024px) {
+.sidebar {
+transform: translateX(-100%);
+}
+.sidebar.active {
+transform: translateX(0);
+}
+.mobile-menu-btn {
+display: block;
+}
+.main-content {
+margin-left: 0;
+}
+}
+@media (max-width: 768px) {
+.products-grid {
+grid-template-columns: 1fr;
+}
+.products-header h1 {
+font-size: 1.9rem;
+}
+.products-header p {
+font-size: 1rem;
+}
+.product-card h3 {
+font-size: 1.3rem;
+}
+.product-card p {
+font-size: 0.95rem;
+}
+.product-card img {
+height: 180px;
+}
+.popup-form {
+width: 95%;
+padding: 1.5rem;
+}
+}
+</style>
+</head>
+<body>
+<div class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<img src="{% static 'icons/sew.png' %}" alt="CycleWorks Logo" />
+<span>CycleWorks</span>
+</div>
+<div class="sidebar-menu">
+<p>Menu</p>
+<a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+<a href="{% url 'products' %}" class="active"><i class="fas fa-boxes"></i> Products</a>
+<a href="{% url 'orders' %}"><i class="fas fa-box-open"></i> Orders</a>
+<a href="{% url 'user_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+<hr style="border-color: #86efac; opacity: 0.3; margin: 1rem 0;">
+</div>
+</div>
+<button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle sidebar"><i class="fas fa-bars"></i></button>
+<div class="main-content">
+<div class="products-header">
+<h1>Our Collections</h1>
+<p>Discover our range of sustainable clothing collections for swapping, designed for eco-conscious fashion lovers.</p>
+</div>
+<div class="products-grid">
+<!-- Hardcoded Static Products (as in original) -->
+<div class="product-card">
+<img src="{% static 'images/denim.jpg' %}" alt="Upcycled Denim" />
+<h3>Upcycled Denim</h3>
+<p>Stylish denim pieces crafted from recycled jeans, perfect for casual and sustainable wardrobes.</p>
+<button onclick="openSwapForm('Upcycled Denim')"><i class="fas fa-exchange-alt"></i> Request Swap</button>
+</div>
+<div class="product-card">
+<img src="{% static 'images/cotton_tee.png' %}" alt="Recycled Cotton" />
+<h3>Recycled Cotton</h3>
+<p>Soft, eco-friendly cotton garments made from post-consumer textiles, ideal for everyday wear.</p>
+<button onclick="openSwapForm('Recycled Cotton')"><i class="fas fa-exchange-alt"></i> Request Swap</button>
+</div>
+<div class="product-card">
+<img src="{% static 'images/dress.jpg' %}" alt="Organic Linen" />
+<h3>Organic Linen</h3>
+<p>Breathable linen clothing sourced sustainably, perfect for warm climates and minimalist style.</p>
+<button onclick="openSwapForm('Organic Linen')"><i class="fas fa-exchange-alt"></i> Request Swap</button>
+</div>
+<div class="product-card">
+<img src="{% static 'images/trouser.jpg' %}" alt="Repurposed Wool" />
+<h3>Repurposed Wool</h3>
+<p>Warm, cozy wool pieces upcycled from pre-loved garments, designed for sustainable elegance.</p>
+<button onclick="openSwapForm('Repurposed Wool')"><i class="fas fa-exchange-alt"></i> Request Swap</button>
+</div>
+<!-- Dynamic Products from DB (loop below static ones) -->
+{% for product in dynamic_products %}
+<div class="product-card">
+{% if product.image %}
+<img src="{{ product.image.url }}" alt="{{ product.name }}" onerror="this.src='{% static 'icons/sew.png' %}'" />
+{% else %}
+<img src="{% static 'icons/sew.png' %}" alt="{{ product.name }}" />
+{% endif %}
+<h3>{{ product.name }}</h3>
+<p>{{ product.description|truncatewords:20 }}</p>
+<button onclick="openSwapForm('{{ product.name|escapejs }}')"><i class="fas fa-exchange-alt"></i> Request Swap</button>
+</div>
+{% empty %}
+<!-- Optional: Message if no dynamic products -->
+<div class="product-card" style="grid-column: 1 / -1; text-align: center; opacity: 0.7;">
+<p>No additional products available yet. Check back soon!</p>
+</div>
+{% endfor %}
+</div>
+</div>
+<div class="popup-overlay" id="swap-popup">
+<div class="popup-form">
+<h2>Request a Swap</h2>
+<form id="swap-form" action="{% url 'create_order' %}" method="POST">
+{% csrf_token %}
+<input type="hidden" name="product_name" id="product-name">
+<label for="product-display">Item</label>
+<input type="text" id="product-display" readonly>
+<label for="customer-name">Full Name</label>
+<input type="text" id="customer-name" name="customer_name" required>
+<label for="email">Email</label>
+<input type="email" id="email" name="email" required>
+<label for="quantity">Quantity</label>
+<input type="number" id="quantity" name="quantity" min="1" required>
+<label for="delivery-address">Swap Location</label>
+<textarea id="delivery-address" name="delivery_address" required></textarea>
+<label for="notes">Additional Notes (Optional)</label>
+<textarea id="notes" name="notes"></textarea>
+<p class="error" id="form-error"></p>
+<div class="form-actions">
+<button type="submit">Submit Swap Request</button>
+<button type="button" class="close-btn" onclick="closeSwapForm()">Cancel</button>
+</div>
+</form>
+</div>
+</div>
+<footer>
+<div class="footer-container">
+<div class="footer-section">
+<h3>CycleWorks</h3>
+</div>
+<div class="footer-section">
+<h3>Quick Links</h3>
+<a href="{% url 'home' %}">Home</a>
+<a href="{% url 'products' %}">Collections</a>
+<a href="{% url 'contact' %}">Contact Us</a>
+</div>
+<div class="footer-section">
+<h3>Contact</h3>
+<p>Email: support@cycleworks.ke</p>
+<p>Phone: +(254) 123 456 789</p>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 CycleWorks. All rights reserved.</p>
+<a href="#">Privacy Policy</a>
+<a href="#">Terms of Service</a>
+</div>
+</footer>
+<script>
+function toggleSidebar() {
+const sidebar = document.getElementById('sidebar');
+sidebar.classList.toggle('active');
+}
+function openSwapForm(productName) {
+const popup = document.getElementById('swap-popup');
+const productInput = document.getElementById('product-name');
+const productDisplay = document.getElementById('product-display');
+const formError = document.getElementById('form-error');
+productInput.value = productName;
+productDisplay.value = productName;
+formError.style.display = 'none';
+popup.style.display = 'flex';
+document.getElementById('swap-form').reset();
+productInput.value = productName;
+productDisplay.value = productName;
+}
+function closeSwapForm() {
+const popup = document.getElementById('swap-popup');
+popup.style.display = 'none';
+document.getElementById('swap-form').reset();
+document.getElementById('form-error').style.display = 'none';
+}
+document.getElementById('swap-form').addEventListener('submit', function(event) {
+event.preventDefault();
+const form = this;
+const formError = document.getElementById('form-error');
+const quantity = document.getElementById('quantity').value;
+const email = document.getElementById('email').value;
+if (quantity < 1) {
+formError.textContent = 'Quantity must be at least 1.';
+formError.style.display = 'block';
+return;
+}
+if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+formError.textContent = 'Please enter a valid email address.';
+formError.style.display = 'block';
+return;
+}
+fetch(form.action, {
+method: 'POST',
+body: new FormData(form),
+headers: {
+'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+}
+})
+.then(response => response.json())
+.then(data => {
+if (data.success) {
+alert('Swap request submitted successfully! Order ID: ' + data.order_id);
+closeSwapForm();
+} else {
+formError.textContent = data.error || 'An error occurred. Please try again.';
+formError.style.display = 'block';
+}
+})
+.catch(error => {
+formError.textContent = 'Network error. Please try again.';
+formError.style.display = 'block';
+console.error('Error:', error);
+});
+});
+</script>
+</body>
+</html>
